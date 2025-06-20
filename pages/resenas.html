@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Lee lo que nuestros clientes dicen sobre Pirotecnia [Nombre de la Tienda]. Reseñas y testimonios reales.">
+    <title>Reseñas de Clientes - Pirotecnia [Nombre de la Tienda]</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar fixed">
+            <div class="nav-links-left">
+                <a href="../index.html">Inicio</a>
+                <a href="catalogo.html" id="nav-catalogo">Catálogo</a>
+                <a href="contacto.html">Contacto</a>
+            </div>
+            <div class="logo">
+                <img src="../images/logo_placeholder.png" alt="Logo Pirotecnia [Nombre de la Tienda]" style="height: 40px;">
+            </div>
+            <div class="nav-links-right">
+                <a href="sobre-nosotros.html">Sobre nosotros</a>
+                <a href="resenas.html">Reseñas</a> <!-- Link corrected here -->
+                <a href="advertencias.html">Advertencias</a>
+            </div>
+            <div class="cart-icon-container">
+                <a href="#" id="cartLink" aria-label="Ver carrito de compras">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                    <span id="cart-item-count">0</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="page-content static-page">
+        <section class="page-header-section">
+            <h1>Opiniones de Nuestros Clientes</h1>
+            <p>La satisfacción de nuestros clientes es nuestra mayor recompensa. Aquí algunas de sus experiencias.</p>
+        </section>
+
+        <section class="reviews-container">
+            <article class="review-card">
+                <div class="review-header">
+                    <h3>¡Increíble Calidad y Efectos!</h3>
+                    <div class="review-rating">★★★★☆</div> <!-- O usar SVGs de estrellas -->
+                </div>
+                <p class="review-text">"Compré una batería para fin de año y fue espectacular. Los colores eran vibrantes y duró mucho más de lo que esperaba. ¡Definitivamente volveré a comprar!"</p>
+                <p class="review-author">- Juan Pérez, Ciudad Capital</p>
+            </article>
+
+            <article class="review-card">
+                <div class="review-header">
+                    <h3>Servicio al Cliente de Primera</h3>
+                    <div class="review-rating">★★★★★</div>
+                </div>
+                <p class="review-text">"Tenía dudas sobre qué productos elegir para una revelación de género y me asesoraron de maravilla por teléfono. El producto fue perfecto para la ocasión. ¡Muchas gracias!"</p>
+                <p class="review-author">- María González, Provincia Feliz</p>
+            </article>
+
+            <article class="review-card">
+                <div class="review-header">
+                    <h3>Diversión Segura para los Niños</h3>
+                    <div class="review-rating">★★★★★</div>
+                </div>
+                <p class="review-text">"Los productos de juguetería son geniales. Mis hijos se divirtieron mucho con las bengalas y chasquibums, y me sentí tranquila sabiendo que eran seguros. Excelente atención."</p>
+                <p class="review-author">- Carlos López, Pueblo Alegre</p>
+            </article>
+            <!-- Añadir más reseñas si es necesario -->
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="social-media">
+                <a href="#" aria-label="Facebook"><img src="../icons/facebook_placeholder.svg" alt="Facebook Pirotecnia [Nombre de la Tienda]"></a>
+                <a href="#" aria-label="Instagram"><img src="../icons/instagram_placeholder.svg" alt="Instagram Pirotecnia [Nombre de la Tienda]"></a>
+                <a href="#" aria-label="Whatsapp"><img src="../icons/whatsapp_placeholder.svg" alt="Whatsapp Pirotecnia [Nombre de la Tienda]"></a>
+            </div>
+            <div class="address">
+                <p>Dirección: Calle Falsa 123, Ciudad, País</p>
+            </div>
+            <div class="legal-links">
+                <a href="politicas.html">Políticas de Privacidad</a>
+                <a href="aviso-legal.html">Aviso Legal</a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 Pirotecnia [Nombre de la Tienda]. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Modal del Carrito de Compras -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2>Tu Carrito de Compras</h2>
+                <button id="closeCartModal" class="close-modal-btn" aria-label="Cerrar carrito">&times;</button>
+            </header>
+            <section class="modal-body">
+                <div id="cartItemsContainer">
+                    <!-- Los productos del carrito se insertarán aquí por JS -->
+                    <p class="empty-cart-message">Tu carrito está vacío.</p>
+                </div>
+            </section>
+            <footer class="modal-footer">
+                <div class="cart-total">
+                    <strong>Total: $<span id="cartTotalAmount">0.00</span></strong>
+                </div>
+                <div class="cart-actions">
+                    <button id="clearCartBtn" class="button-secondary">Vaciar Carrito</button>
+                    <button id="checkoutBtn" class="cta-button">Proceder al Pago</button>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <button id="scrollToTopBtn" title="Ir arriba">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+    </button>
+    <script src="../js/main.js"></script>
+</body>
+</html>

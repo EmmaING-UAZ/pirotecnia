@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Fuente Sorpresa para Revelación de Género (Color Oculto). Chispas y color para un anuncio emocionante.">
+    <title>Fuente Sorpresa Revelación (Color Oculto) - Pirotecnia [Nombre de la Tienda]</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar fixed">
+            <div class="nav-links-left">
+                <a href="../index.html">Inicio</a>
+                <a href="catalogo.html" id="nav-catalogo">Catálogo</a>
+                <a href="contacto.html">Contacto</a>
+            </div>
+            <div class="logo">
+                <img src="../images/logo_placeholder.png" alt="Logo Pirotecnia [Nombre de la Tienda]" style="height: 40px;">
+            </div>
+            <div class="nav-links-right">
+                <a href="sobre-nosotros.html">Sobre nosotros</a>
+                <a href="resenas.html">Reseñas</a>
+                <a href="advertencias.html">Advertencias</a>
+            </div>
+            <div class="cart-icon-container">
+                <a href="#" id="cartLink" aria-label="Ver carrito de compras">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                    <span id="cart-item-count">0</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+    <main class="page-content product-detail-page">
+        <article class="product-detail-container">
+            <div class="product-image-gallery">
+                <img src="../images/product_fuente_sorpresa_placeholder.jpg" alt="Fuente Sorpresa para Revelación de Género" class="main-product-image">
+            </div>
+            <div class="product-info">
+                <h1>Fuente Sorpresa Revelación (Color Oculto)</h1>
+                <p class="product-price">Precio: $25.00</p>
+                <div class="product-description-full">
+                    <p>Mantén la emoción hasta el último segundo con nuestra Fuente Sorpresa para Revelación de Género. Este producto está diseñado para ocultar el color (azul o rosa) hasta que se activa.</p>
+                    <p>Comienza con una secuencia de chispas de colores neutrales y doradas, y culmina revelando el género con una erupción de chispas y/o humo del color correspondiente. Una forma divertida y original de compartir la gran noticia.</p>
+                    <ul>
+                        <li>Tipo: Fuente de piso con revelación de color</li>
+                        <li>Efecto: Chispas neutrales iniciales, revelación final de color (azul o rosa)</li>
+                        <li>Ideal para: Mantener el suspenso en fiestas de revelación.</li>
+                        <li>Categoría: Revelación de Género</li>
+                    </ul>
+                </div>
+                <div class="product-actions">
+                    <label for="quantity">Cantidad:</label>
+                    <input type="number" id="quantity" name="quantity" value="1" min="1" max="20" class="quantity-input">
+                    <button class="add-to-cart-button product-page-button" data-product-id="rev_fuentesorp001" data-product-name="Fuente Sorpresa Revelación (Color Oculto)" data-product-price="25.00">
+                        Agregar al carrito
+                    </button>
+                </div>
+            </div>
+        </article>
+        <section class="product-video-section">
+            <h2>Video de Demostración</h2>
+            <div class="video-container">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/placeholder_video_revelacion_fuente" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <div class="social-media">
+                <a href="#" aria-label="Facebook"><img src="../icons/facebook_placeholder.svg" alt="Facebook Pirotecnia [Nombre de la Tienda]"></a>
+                <a href="#" aria-label="Instagram"><img src="../icons/instagram_placeholder.svg" alt="Instagram Pirotecnia [Nombre de la Tienda]"></a>
+                <a href="#" aria-label="Whatsapp"><img src="../icons/whatsapp_placeholder.svg" alt="Whatsapp Pirotecnia [Nombre de la Tienda]"></a>
+            </div>
+            <div class="address">
+                <p>Dirección: Calle Falsa 123, Ciudad, País</p>
+            </div>
+            <div class="legal-links">
+                <a href="politicas.html">Políticas de Privacidad</a>
+                <a href="aviso-legal.html">Aviso Legal</a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 Pirotecnia [Nombre de la Tienda]. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2>Tu Carrito de Compras</h2>
+                <button id="closeCartModal" class="close-modal-btn" aria-label="Cerrar carrito">&times;</button>
+            </header>
+            <section class="modal-body">
+                <div id="cartItemsContainer"><p class="empty-cart-message">Tu carrito está vacío.</p></div>
+            </section>
+            <footer class="modal-footer">
+                <div class="cart-total"><strong>Total: $<span id="cartTotalAmount">0.00</span></strong></div>
+                <div class="cart-actions">
+                    <button id="clearCartBtn" class="button-secondary">Vaciar Carrito</button>
+                    <button id="checkoutBtn" class="cta-button">Proceder al Pago</button>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <button id="scrollToTopBtn" title="Ir arriba">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+    </button>
+    <script src="../js/main.js"></script>
+</body>
+</html>
