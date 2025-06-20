@@ -1,73 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Funcionalidad del menú desplegable para "Catálogo"
-    const catalogoLink = document.querySelector('a[href="pages/catalogo.html"], a[href="../pages/catalogo.html"]'); // Ajustar selectores si es necesario
-    const navCatalogoItem = document.getElementById('nav-catalogo'); // Específico para el navbar fijo
-
-    let dropdownContentHTML = `
-        <div class="dropdown-content">
-            <a href="jugueteria.html">Juguetería</a>
-            <a href="importados.html">Importados</a>
-            <a href="revelacion.html">Revelación de Género</a>
-            <a href="cakes.html">Creaciones Cakes Nacionales</a>
-        </div>
-    `;
+    const catalogoLink = document.querySelector('a[href="pages/catalogo.html"], a[href="../pages/catalogo.html"]');
+    const navCatalogoItem = document.getElementById('nav-catalogo');
 
     // Identificar si estamos en index.html o en una subpágina
     const isIndexPage = window.location.pathname.endsWith('/') || window.location.pathname.endsWith('index.html');
-    const isCatalogoPage = window.location.pathname.includes('catalogo.html'); // Para futura página real de catálogo
-    const isTempPage = window.location.pathname.includes('temp_page.html');
-
-
-    function setupDropdown(linkElement) {
-        if (linkElement) {
-            const parentNavItem = linkElement.parentElement; // Asumimos que el 'a' está dentro de un 'div' o 'li'
-            parentNavItem.classList.add('dropdown');
-
-            // Corrige los href en el dropdown según la ubicación actual
-            let currentPathPrefix = "";
-            if (!isIndexPage) { // Si estamos en una subpágina como temp_page.html
-                // No se necesita prefijo si los enlaces del dropdown son relativos a la carpeta pages/
-            }
-
-            let correctedDropdownContentHTML = `
-            <div class="dropdown-content">
-                <a href="${currentPathPrefix}jugueteria.html">Juguetería</a>
-                <a href="${currentPathPrefix}importados.html">Importados</a>
-                <a href="${currentPathPrefix}revelacion.html">Revelación de Género</a>
-                <a href="${currentPathPrefix}cakes.html">Creaciones Cakes Nacionales</a>
-            </div>
-            `;
-            linkElement.insertAdjacentHTML('afterend', correctedDropdownContentHTML);
-
-            const dropdownContent = parentNavItem.querySelector('.dropdown-content');
-
-            linkElement.addEventListener('click', function(event) {
-                // Prevenir navegación si es solo para abrir/cerrar dropdown en algunas implementaciones
-                // Pero en este caso, el link principal "Catálogo" también es una página.
-                // Considerar si el click en "Catálogo" debe ir a catalogo.html o solo abrir el menú.
-                // Por ahora, permite la navegación Y muestra/oculta el menú.
-                if (dropdownContent) {
-                    dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
-                }
-            });
-
-            // Opcional: Cerrar el dropdown si se hace clic fuera
-            window.addEventListener('click', function(event) {
-                if (dropdownContent && !parentNavItem.contains(event.target)) {
-                    dropdownContent.style.display = 'none';
-                }
-            });
-        }
-    }
+    const isCatalogoPage = window.location.pathname.includes('catalogo.html');
+    const isTempPage = window.location.pathname.includes('temp_page.html'); // Aunque temp_page ya no existe, la lógica de active link la usa
 
     // Configurar desplegable para el navbar transparente (index) y fijo (otras páginas)
-    const catalogoLinkIndex = document.querySelector('.navbar.transparent a[href="pages/catalogo.html"]'); // Actualizado a catalogo.html
+    const catalogoLinkIndex = document.querySelector('.navbar.transparent a[href="pages/catalogo.html"]');
     const catalogoLinkFixed = document.querySelector('.navbar.fixed a[href="catalogo.html"]');
 
-
     if (isIndexPage && catalogoLinkIndex) {
-        // En index.html, el enlace a catálogo es "pages/temp_page.html"
-        // y los enlaces del dropdown deben ser "pages/jugueteria.html", etc.
         let indexDropdownContent = `
         <div class="dropdown-content">
             <a href="pages/jugueteria.html">Juguetería</a>
@@ -83,9 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
         catalogoLinkIndex.addEventListener('mouseenter', () => { if(dropdownContent) dropdownContent.style.display = 'block'; });
         parentNavItem.addEventListener('mouseleave', () => { if(dropdownContent) dropdownContent.style.display = 'none'; });
 
-    } else if (!isIndexPage && catalogoLinkFixed) { // Para páginas en /pages/
-         // En pages/*.html, el enlace a catálogo es "catalogo.html" (hermano)
-        // y los enlaces del dropdown deben ser "jugueteria.html", etc. (hermanos)
+    } else if (!isIndexPage && catalogoLinkFixed) {
         let pagesDropdownContent = `
         <div class="dropdown-content">
             <a href="jugueteria.html">Juguetería</a>
@@ -102,7 +45,6 @@ document.addEventListener('DOMContentLoaded', function() {
         parentNavItem.addEventListener('mouseleave', () => { if(dropdownContent) dropdownContent.style.display = 'none'; });
     }
 
-
     // Funcionalidad de subrayado para el enlace activo
     const navLinks = document.querySelectorAll('.navbar a');
     const currentPath = window.location.pathname;
@@ -113,37 +55,238 @@ document.addEventListener('DOMContentLoaded', function() {
         if (linkPage === currentPage || (currentPage === "" && linkPage === "index.html")) {
             link.classList.add('active');
         }
-
-        // Si estamos en temp_page.html, marcar "Catálogo (Test)" o "Catálogo" como activo
         if (isTempPage && (link.getAttribute('href').includes('temp_page.html') || link.getAttribute('href').includes('catalogo.html'))) {
             link.classList.add('active');
+        }
+         // Si estamos en una página de categoría (ej: jugueteria.html) o de producto, marcar "Catálogo" como activo
+        if (!isIndexPage && (link.getAttribute('href').endsWith('catalogo.html'))) {
+            if (currentPage !== 'catalogo.html' && currentPage !== 'contacto.html' && currentPage !== 'sobre-nosotros.html' && currentPage !== 'reseñas.html' && currentPage !== 'advertencias.html' && currentPage !== 'politicas.html' && currentPage !== 'aviso-legal.html' ) {
+                 // Asumimos que si no es una de las páginas estáticas principales, es una subpágina de catálogo
+                link.classList.add('active');
+            }
         }
     });
 
     // Funcionalidad del botón "Ir Arriba"
     const scrollToTopBtn = document.getElementById('scrollToTopBtn');
-
-    // La detección de scroll puede usar document.documentElement o document.body
-    // Es más robusto verificar ambos o usar window.pageYOffset
     function handleScroll() {
-        if (scrollToTopBtn) { // Verificar si el botón existe en la página actual
-            if (window.pageYOffset > 400) { // window.pageYOffset es más compatible
+        if (scrollToTopBtn) {
+            if (window.pageYOffset > 400) {
                 scrollToTopBtn.style.display = 'block';
             } else {
                 scrollToTopBtn.style.display = 'none';
             }
         }
     }
-
     function scrollToTop() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-
     if (scrollToTopBtn) {
         document.addEventListener('scroll', handleScroll);
         scrollToTopBtn.addEventListener('click', scrollToTop);
     }
+
+    // --- Inicio: Funcionalidad del Carrito de Compras ---
+    const cartItemCountElement = document.getElementById('cart-item-count');
+    let cart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
+
+    function updateCartCounter() {
+        if (cartItemCountElement) {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartItemCountElement.textContent = totalItems;
+        }
+    }
+
+    function renderCartItems() {
+        const cartItemsContainer = document.getElementById('cartItemsContainer');
+        const cartTotalAmountElement = document.getElementById('cartTotalAmount');
+
+        if (!cartItemsContainer || !cartTotalAmountElement) return;
+
+        cartItemsContainer.innerHTML = ''; // Limpiar items anteriores
+        let totalAmount = 0;
+
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<p class="empty-cart-message">Tu carrito está vacío.</p>';
+        } else {
+            cart.forEach(item => {
+                const itemSubtotal = item.price * item.quantity;
+                totalAmount += itemSubtotal;
+
+                const cartItemDiv = document.createElement('div');
+                cartItemDiv.classList.add('cart-item');
+                cartItemDiv.innerHTML = `
+                    <div class="cart-item-info">
+                        <h4>${item.name}</h4>
+                        <p>Precio: $${item.price.toFixed(2)}</p>
+                        <p>Subtotal: $${itemSubtotal.toFixed(2)}</p>
+                    </div>
+                    <div class="cart-item-quantity">
+                        <button class="quantity-change" data-product-id="${item.id}" data-change="-1" aria-label="Disminuir cantidad">-</button>
+                        <input type="number" value="${item.quantity}" min="1" class="item-quantity-input" data-product-id="${item.id}" aria-label="Cantidad">
+                        <button class="quantity-change" data-product-id="${item.id}" data-change="1" aria-label="Aumentar cantidad">+</button>
+                    </div>
+                    <div class="cart-item-actions">
+                        <button class="remove-item-btn" data-product-id="${item.id}" aria-label="Eliminar ${item.name}">&times; Eliminar</button>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(cartItemDiv);
+            });
+        }
+        cartTotalAmountElement.textContent = totalAmount.toFixed(2);
+        updateCartCounter();
+    }
+
+    function addToCart(productId, productName, productPrice) {
+        const existingProductIndex = cart.findIndex(item => item.id === productId);
+        let quantityToAdd = 1;
+
+        const quantityInput = document.getElementById('quantity');
+        if (quantityInput) {
+            const parsedQuantity = parseInt(quantityInput.value, 10);
+            if (!isNaN(parsedQuantity) && parsedQuantity > 0) {
+                quantityToAdd = parsedQuantity;
+            }
+        }
+
+        if (existingProductIndex > -1) {
+            cart[existingProductIndex].quantity += quantityToAdd;
+        } else {
+            cart.push({
+                id: productId,
+                name: productName,
+                price: parseFloat(productPrice),
+                quantity: quantityToAdd
+            });
+        }
+        localStorage.setItem('shoppingCart', JSON.stringify(cart));
+        updateCartCounter();
+
+        if (cartModal && cartModal.style.display === 'block') {
+            renderCartItems();
+        }
+        alert(`${productName} (x${quantityToAdd}) agregado al carrito!`);
+    }
+
+    const addToCartButtons = document.querySelectorAll('.add-to-cart-button');
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.dataset.productId;
+            const productName = this.dataset.productName;
+            const productPrice = this.dataset.productPrice;
+            addToCart(productId, productName, productPrice);
+        });
+    });
+
+    updateCartCounter();
+    // --- Fin: Funcionalidad del Carrito de Compras ---
+
+    // --- Inicio: Funcionalidad del Modal del Carrito ---
+    const cartModal = document.getElementById('cartModal');
+    const cartLink = document.getElementById('cartLink');
+    const closeCartModalBtn = document.getElementById('closeCartModal');
+
+    function openCartModal() {
+        if (cartModal) {
+            cartModal.style.display = 'block';
+            renderCartItems();
+        }
+    }
+
+    function closeCartModal() {
+        if (cartModal) {
+            cartModal.style.display = 'none';
+        }
+    }
+
+    if (cartLink) {
+        cartLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            openCartModal();
+        });
+    }
+
+    if (closeCartModalBtn) {
+        closeCartModalBtn.addEventListener('click', closeCartModal);
+    }
+
+    window.addEventListener('click', function(event) {
+        if (event.target === cartModal) {
+            closeCartModal();
+        }
+    });
+    // --- Fin: Funcionalidad del Modal del Carrito ---
+
+    // --- Inicio: Acciones dentro del Modal del Carrito ---
+    const cartItemsContainerGlobal = document.getElementById('cartItemsContainer');
+
+    if (cartItemsContainerGlobal) {
+        cartItemsContainerGlobal.addEventListener('click', function(event) {
+            const target = event.target;
+
+            if (target.classList.contains('remove-item-btn')) {
+                const productId = target.dataset.productId;
+                cart = cart.filter(item => item.id !== productId);
+                localStorage.setItem('shoppingCart', JSON.stringify(cart));
+                renderCartItems();
+            }
+
+            if (target.classList.contains('quantity-change')) {
+                const productId = target.dataset.productId;
+                const change = parseInt(target.dataset.change, 10);
+                const itemIndex = cart.findIndex(item => item.id === productId);
+
+                if (itemIndex > -1) {
+                    cart[itemIndex].quantity += change;
+                    if (cart[itemIndex].quantity <= 0) {
+                        cart = cart.filter(item => item.id !== productId);
+                    }
+                    localStorage.setItem('shoppingCart', JSON.stringify(cart));
+                    renderCartItems();
+                }
+            }
+        });
+
+        cartItemsContainerGlobal.addEventListener('change', function(event) {
+            const target = event.target;
+            if (target.classList.contains('item-quantity-input')) {
+                const productId = target.dataset.productId;
+                const newQuantity = parseInt(target.value, 10);
+                const itemIndex = cart.findIndex(item => item.id === productId);
+
+                if (itemIndex > -1) {
+                    if (newQuantity > 0) {
+                        cart[itemIndex].quantity = newQuantity;
+                    } else {
+                        cart = cart.filter(item => item.id !== productId);
+                    }
+                    localStorage.setItem('shoppingCart', JSON.stringify(cart));
+                    renderCartItems();
+                }
+            }
+        });
+    }
+
+    const clearCartBtn = document.getElementById('clearCartBtn');
+    if (clearCartBtn) {
+        clearCartBtn.addEventListener('click', function() {
+            if (confirm("¿Estás seguro de que quieres vaciar el carrito?")) {
+                cart = [];
+                localStorage.setItem('shoppingCart', JSON.stringify(cart));
+                renderCartItems();
+            }
+        });
+    }
+
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', function() {
+            if (cart.length > 0) {
+                alert("Redirigiendo a la página de pago (funcionalidad no implementada).");
+            } else {
+                alert("Tu carrito está vacío. Añade productos antes de proceder al pago.");
+            }
+        });
+    }
+    // --- Fin: Acciones dentro del Modal del Carrito ---
 });

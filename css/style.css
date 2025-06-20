@@ -66,7 +66,7 @@ img {
 
 .navbar a {
     padding: 0.5rem;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, border-bottom-color 0.3s ease; /* MODIFICADO */
 }
 
 .navbar a:hover {
@@ -97,18 +97,16 @@ img {
     border-radius: 5px;
     font-size: 1.2rem;
     text-transform: uppercase;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* MODIFICADO */
 }
 
 .cta-button:hover {
     background-color: #e03e00; /* Color más oscuro al pasar el mouse */
+    transform: scale(1.05); /* MODIFICADO */
 }
 
 /* Placeholder para el ícono del carrito en el navbar */
-.cart-icon-placeholder span {
-    font-size: 1.5rem; /* Tamaño del emoji del carrito */
-    cursor: pointer;
-}
+/* Eliminado ya que el estilo ahora es para .cart-icon-container */
 
 
 /* Footer Global */
@@ -238,6 +236,7 @@ footer {
     display: block;
     text-align: left;
     font-size: 0.9rem;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Añadido para suavizar hover en dropdown items */
 }
 
 .dropdown-content a:hover {
@@ -292,6 +291,7 @@ footer {
     justify-content: center;
     gap: 2rem; /* Espacio entre tarjetas */
     padding: 0 1rem; /* Padding lateral para el contenedor */
+    /* animation: fadeIn 0.5s ease-out forwards; */ /* APLICADO ABAJO */
 }
 
 .category-card {
@@ -364,6 +364,7 @@ footer {
     justify-content: center; /* Centra las tarjetas si no llenan toda la fila */
     gap: 1.5rem; /* Espacio entre tarjetas de producto */
     padding: 0 1rem 2rem 1rem; /* Padding lateral e inferior */
+    /* animation: fadeIn 0.5s ease-out forwards; */ /* APLICADO ABAJO */
 }
 
 .product-card {
@@ -373,11 +374,12 @@ footer {
     width: 280px; /* Ancho de las tarjetas de producto */
     display: flex; /* Para alinear el botón al final */
     flex-direction: column; /* Contenido arriba, botón abajo */
-    transition: box-shadow 0.3s ease;
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* MODIFICADO */
 }
 
 .product-card:hover {
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transform: translateY(-5px); /* MODIFICADO */
 }
 
 .product-card-link {
@@ -424,13 +426,21 @@ footer {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     width: 100%; /* Ocupa todo el ancho de la tarjeta */
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* MODIFICADO */
     margin-top: auto; /* Asegura que el botón esté al final si la tarjeta es más alta */
 }
 
 .add-to-cart-button:hover {
-    background-color: #218838; /* Verde más oscuro */
+    background-color: #218838;
+    transform: scale(1.03); /* MODIFICADO */
 }
+
+/* Específico para el botón en la página de producto si se quiere diferenciar */
+.add-to-cart-button.product-page-button:hover {
+    /* background-color: #1c7430; */
+    /* transform: scale(1.05); */ /* Ya hereda scale(1.03), si se quiere diferente, descomentar */
+}
+
 
 /* Responsive para tarjetas de producto */
 @media (max-width: 620px) {
@@ -614,7 +624,7 @@ footer {
     padding: 12px; /* Padding para hacerlo un poco más grande */
     border-radius: 50%; /* Botón circular */
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    transition: background-color 0.3s ease, opacity 0.3s ease;
+    transition: background-color 0.3s ease, opacity 0.3s ease, transform 0.3s ease; /* MODIFICADO */
 }
 
 #scrollToTopBtn svg {
@@ -624,4 +634,343 @@ footer {
 
 #scrollToTopBtn:hover {
     background-color: #e03e00; /* Más oscuro al pasar el mouse */
+    transform: scale(1.1); /* MODIFICADO */
+}
+
+/* Estilos para el Ícono del Carrito en el Navbar */
+.cart-icon-container {
+    position: relative; /* Para posicionar el contador */
+    margin-left: 15px; /* Espacio respecto a los otros links */
+}
+
+.cart-icon-container a {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem; /* Similar a otros enlaces del navbar */
+}
+
+.cart-icon-container svg {
+    stroke: #fff; /* Color del ícono en navbar fijo, se ajustará para transparente */
+    transition: stroke 0.3s ease; /* MODIFICADO */
+}
+
+.navbar.transparent .cart-icon-container svg {
+    stroke: #fff; /* Color del ícono en navbar transparente */
+}
+
+.navbar.fixed .cart-icon-container svg {
+    stroke: #fff; /* Color del ícono en navbar fijo */
+}
+
+#cart-item-count {
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 0.75rem;
+    position: absolute;
+    top: -5px; /* Ajustar para posicionar sobre el ícono */
+    right: -10px; /* Ajustar para posicionar sobre el ícono */
+    line-height: 1;
+    font-weight: bold;
+    display: inline-block; /* Para que el padding funcione */
+    min-width: 18px; /* Ancho mínimo para que sea legible */
+    text-align: center;
+}
+
+/* Animación de entrada sutil para tarjetas */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.category-cards-container,
+.product-cards-container {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Estilos para Páginas Estáticas (Contacto, Sobre Nosotros, etc.) */
+.static-page .page-header-section {
+    background-color: #f8f9fa; /* Fondo suave para el encabezado de página */
+    padding: 2rem 1rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.static-page .page-header-section h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.static-page .page-header-section p {
+    font-size: 1.1rem;
+    color: #555;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.contact-content-section,
+.about-us-content {
+    max-width: 1100px;
+    margin: 0 auto 2rem auto;
+    padding: 0 1rem;
+    line-height: 1.7;
+}
+
+.contact-content-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.contact-form-container {
+    flex: 2 1 500px; /* El formulario toma más espacio */
+}
+
+.contact-details-container {
+    flex: 1 1 300px; /* Detalles de contacto toman menos espacio */
+    background-color: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.contact-details-container h2 {
+    margin-top:0;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+.contact-details-container p {
+    margin-bottom: 0.8rem;
+}
+.contact-details-container a {
+    color: #ff4500;
+    text-decoration: underline;
+}
+.contact-details-container a:hover {
+    color: #e03e00;
+}
+
+
+.about-us-content .about-text-block {
+    margin-bottom: 2rem;
+}
+
+.about-us-content h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 0.75rem;
+    border-bottom: 2px solid #ff4500;
+    padding-bottom: 0.25rem;
+    display: inline-block;
+}
+
+.about-us-content ul {
+    list-style: disc;
+    margin-left: 20px;
+    margin-bottom: 1rem;
+}
+.about-us-content .about-us-image {
+    width: 100%;
+    max-width: 500px;
+    margin: 1rem auto;
+    display: block;
+    border-radius: 8px;
+}
+
+
+/* Estilos para el Formulario de Contacto */
+#contactForm .form-group {
+    margin-bottom: 1.5rem;
+}
+
+#contactForm label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+#contactForm input[type="text"],
+#contactForm input[type="email"],
+#contactForm textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: inherit;
+}
+
+#contactForm textarea {
+    resize: vertical; /* Permite redimensionar verticalmente */
+}
+
+#contactForm .form-submit-button { /* Hereda de .cta-button */
+    display: inline-block; /* Para que no ocupe todo el ancho por defecto */
+    cursor: pointer;
+    border: none; /* Asegurar que no tenga borde si .cta-button lo tuviera */
+}
+#contactForm .form-submit-button:hover {
+     transform: scale(1.05);
+}
+
+/* Estilos para el Modal del Carrito de Compras */
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    z-index: 1050; /* Sobre otros elementos como el navbar fijo */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Permitir scroll si el contenido es muy largo */
+    background-color: rgba(0,0,0,0.5); /* Fondo oscuro semitransparente */
+    animation: fadeInModalBackground 0.3s ease-out;
+}
+
+@keyframes fadeInModalBackground {
+    from { background-color: rgba(0,0,0,0); }
+    to { background-color: rgba(0,0,0,0.5); }
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto; /* Centrado verticalmente (aproximado) y horizontalmente */
+    padding: 0; /* El padding se manejará en header, body, footer */
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 600px; /* Ancho máximo del modal */
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: slideInModal 0.3s ease-out;
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes slideInModal {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+
+.modal-header {
+    padding: 1rem 1.5rem;
+    background-color: #f1f1f1; /* Un color de fondo para la cabecera */
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.close-modal-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #888;
+    cursor: pointer;
+    padding: 0 0.5rem;
+    line-height: 1;
+}
+.close-modal-btn:hover {
+    color: #555;
+}
+
+.modal-body {
+    padding: 1.5rem;
+    overflow-y: auto; /* Scroll para la lista de productos si es necesario */
+    min-height: 150px; /* Altura mínima para que se vea algo incluso vacío */
+    max-height: 60vh; /* Altura máxima antes de que aparezca el scroll interno */
+}
+
+.empty-cart-message {
+    text-align: center;
+    color: #777;
+    font-size: 1.1rem;
+    padding: 2rem 0;
+}
+
+.modal-footer {
+    padding: 1rem 1.5rem;
+    background-color: #f1f1f1;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Para responsividad */
+    gap: 10px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.cart-total {
+    font-size: 1.2rem;
+    color: #333;
+}
+.cart-total strong {
+     color: #000;
+}
+
+.cart-actions .button-secondary {
+    background-color: #6c757d;
+    color: white;
+    padding: 0.6rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.cart-actions .button-secondary:hover {
+    background-color: #5a6268;
+}
+.cart-actions .cta-button { /* Hereda estilos, pero podemos ajustar padding/font si es necesario */
+    padding: 0.6rem 1rem;
+}
+
+/* Estilos para los items del carrito (se añadirán más cuando se pueble) */
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #eee;
+}
+.cart-item:last-child {
+    border-bottom: none;
+}
+.cart-item-info {
+    flex-grow: 1;
+}
+.cart-item-info h4 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1rem;
+}
+.cart-item-info p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #555;
+}
+.cart-item-quantity input {
+    width: 50px;
+    text-align: center;
+    padding: 0.3rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 0 0.5rem;
+}
+.cart-item-actions button {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+    font-size:0.9rem;
 }

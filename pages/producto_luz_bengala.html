@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Detalles de Bengalas de Colores. Pirotecnia segura y divertida.">
+    <meta name="description" content="Detalles de las Bengalas de Colores (Paquete x5) de Pirotecnia [Nombre de la Tienda]. Ilumina tus fiestas de forma segura.">
     <title>Bengalas de Colores - Pirotecnia [Nombre de la Tienda]</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -16,15 +16,18 @@
                 <a href="contacto.html">Contacto</a>
             </div>
             <div class="logo">
-                <img src="../images/logo_placeholder.png" alt="Logo Pirotecnia" style="height: 50px;">
+                <img src="../images/logo_placeholder.png" alt="Logo Pirotecnia [Nombre de la Tienda]" style="height: 50px;">
             </div>
             <div class="nav-links-right">
                 <a href="sobre-nosotros.html">Sobre nosotros</a>
                 <a href="reseñas.html">Reseñas</a>
                 <a href="advertencias.html">Advertencias</a>
             </div>
-            <div class="cart-icon-placeholder">
-                <span>🛒</span>
+            <div class="cart-icon-container">
+                <a href="#" id="cartLink" aria-label="Ver carrito de compras">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                    <span id="cart-item-count">0</span>
+                </a>
             </div>
         </nav>
     </header>
@@ -32,7 +35,7 @@
     <main class="page-content product-detail-page">
         <article class="product-detail-container">
             <div class="product-image-gallery">
-                <img src="../images/product_bengala_large_placeholder.jpg" alt="Bengalas de Colores en detalle" class="main-product-image">
+                <img src="../images/product_bengala_large_placeholder.jpg" alt="Imagen grande de Bengalas de Colores" class="main-product-image">
                 <!-- Miniaturas podrían ir aquí -->
             </div>
 
@@ -80,9 +83,9 @@
         <!-- El mismo footer -->
         <div class="footer-content">
             <div class="social-media">
-                <a href="#" aria-label="Facebook"><img src="../icons/facebook_placeholder.svg" alt="Facebook"></a>
-                <a href="#" aria-label="Instagram"><img src="../icons/instagram_placeholder.svg" alt="Instagram"></a>
-                <a href="#" aria-label="Whatsapp"><img src="../icons/whatsapp_placeholder.svg" alt="Whatsapp"></a>
+                <a href="#" aria-label="Facebook"><img src="../icons/facebook_placeholder.svg" alt="Facebook Pirotecnia [Nombre de la Tienda]"></a>
+                <a href="#" aria-label="Instagram"><img src="../icons/instagram_placeholder.svg" alt="Instagram Pirotecnia [Nombre de la Tienda]"></a>
+                <a href="#" aria-label="Whatsapp"><img src="../icons/whatsapp_placeholder.svg" alt="Whatsapp Pirotecnia [Nombre de la Tienda]"></a>
             </div>
             <div class="address">
                 <p>Dirección: Calle Falsa 123, Ciudad, País</p>
@@ -97,6 +100,34 @@
         </div>
     </footer>
 
+    <!-- Modal del Carrito de Compras -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2>Tu Carrito de Compras</h2>
+                <button id="closeCartModal" class="close-modal-btn" aria-label="Cerrar carrito">&times;</button>
+            </header>
+            <section class="modal-body">
+                <div id="cartItemsContainer">
+                    <!-- Los productos del carrito se insertarán aquí por JS -->
+                    <p class="empty-cart-message">Tu carrito está vacío.</p>
+                </div>
+            </section>
+            <footer class="modal-footer">
+                <div class="cart-total">
+                    <strong>Total: $<span id="cartTotalAmount">0.00</span></strong>
+                </div>
+                <div class="cart-actions">
+                    <button id="clearCartBtn" class="button-secondary">Vaciar Carrito</button>
+                    <button id="checkoutBtn" class="cta-button">Proceder al Pago</button>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <button id="scrollToTopBtn" title="Ir arriba">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+    </button>
     <script src="../js/main.js"></script>
 </body>
 </html>

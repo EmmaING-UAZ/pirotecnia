@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Explora el catálogo completo de Pirotecnia [Nombre de la Tienda]: juguetería, importados, revelación de género y cakes nacionales.">
-    <title>Catálogo de Pirotecnia - [Nombre de la Tienda]</title>
+    <meta name="description" content="Pirotecnia de Importación en Pirotecnia [Nombre de la Tienda]. Productos exclusivos y efectos espectaculares.">
+    <title>Pirotecnia Importada - Catálogo Pirotecnia [Nombre de la Tienda]</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -12,7 +12,7 @@
         <nav class="navbar fixed">
             <div class="nav-links-left">
                 <a href="../index.html">Inicio</a>
-                <a href="catalogo.html" id="nav-catalogo">Catálogo</a> <!-- Enlace a sí mismo, se marcará como activo -->
+                <a href="catalogo.html" id="nav-catalogo">Catálogo</a>
                 <a href="contacto.html">Contacto</a>
             </div>
             <div class="logo">
@@ -33,36 +33,53 @@
     </header>
 
     <main class="page-content">
-        <section class="catalog-introduction">
-            <h1>Nuestro Catálogo de Pirotecnia</h1>
-            <p>Descubre la variedad y calidad que tenemos para ofrecer. Selecciona una categoría para ver los productos.</p>
+        <section class="category-header">
+            <h1>Pirotecnia de Importación</h1>
+            <p>Descubre nuestra selección exclusiva de pirotecnia internacional, con efectos visuales y sonoros de gran impacto para celebraciones inolvidables.</p>
         </section>
 
-        <section class="category-cards-container">
-            <a href="jugueteria.html" class="category-card">
-                <img src="../images/category_jugueteria_placeholder.jpg" alt="Categoría Juguetería Pirotécnica">
-                <h2>Juguetería</h2>
-                <p>Luces, chispas y diversión segura para los más pequeños y toda la familia.</p>
-            </a>
-            <a href="importados.html" class="category-card">
-                <img src="../images/category_importados_placeholder.jpg" alt="Categoría Pirotecnia de Importación">
-                <h2>Importados</h2>
-                <p>Selección exclusiva de pirotecnia internacional con efectos espectaculares.</p>
-            </a>
-            <a href="revelacion.html" class="category-card">
-                <img src="../images/category_revelacion_placeholder.jpg" alt="Categoría Pirotecnia para Revelación de Género">
-                <h2>Revelación de Género</h2>
-                <p>Anuncia la llegada de tu bebé de una forma inolvidable y colorida.</p>
-            </a>
-            <a href="cakes.html" class="category-card">
-                <img src="../images/category_cakes_placeholder.jpg" alt="Categoría Cakes y Tortas de Pirotecnia Nacionales">
-                <h2>Creaciones Cakes Nacionales</h2>
-                <p>Impresionantes shows de luces y sonido con nuestras tortas de fabricación nacional.</p>
-            </a>
+        <section class="product-cards-container">
+            <!-- Producto Ejemplo 1: Importado -->
+            <article class="product-card">
+                <a href="producto_bateria_dragon_rojo.html" class="product-card-link">
+                    <img src="../images/product_dragon_rojo_placeholder.jpg" alt="Batería Dragón Rojo 100 Tiros">
+                    <div class="product-card-content">
+                        <h2>Batería Dragón Rojo (100 Tiros)</h2>
+                        <p class="product-description">Impresionante batería importada con 100 disparos de crisantemos rojos y cracker. Un espectáculo completo.</p>
+                    </div>
+                </a>
+                <button class="add-to-cart-button" data-product-id="imp_dragon001" data-product-name="Batería Dragón Rojo (100 Tiros)" data-product-price="75.00">Agregar al carrito</button>
+            </article>
+
+            <!-- Producto Ejemplo 2: Importado -->
+            <article class="product-card">
+                <a href="producto_fuente_olimpo.html" class="product-card-link">
+                    <img src="../images/product_fuente_olimpo_placeholder.jpg" alt="Fuente Monte Olimpo">
+                    <div class="product-card-content">
+                        <h2>Fuente Monte Olimpo (3 Minutos)</h2>
+                        <p class="product-description">Fuente de larga duración con múltiples efectos: perlas de colores, cracker, silbidos y final de titanio.</p>
+                    </div>
+                </a>
+                <button class="add-to-cart-button" data-product-id="imp_olimpo001" data-product-name="Fuente Monte Olimpo (3 Minutos)" data-product-price="45.00">Agregar al carrito</button>
+            </article>
+
+            <!-- Producto Ejemplo 3: Importado -->
+            <article class="product-card">
+                <a href="producto_volador_fenix.html" class="product-card-link">
+                    <img src="../images/product_volador_fenix_placeholder.jpg" alt="Volador Ascenso del Fénix">
+                    <div class="product-card-content">
+                        <h2>Volador Ascenso del Fénix</h2>
+                        <p class="product-description">Cohete de gran altura con estela dorada y apertura en forma de palmera llorona multicolor.</p>
+                    </div>
+                </a>
+                <button class="add-to-cart-button" data-product-id="imp_fenix001" data-product-name="Volador Ascenso del Fénix" data-product-price="15.00">Agregar al carrito</button>
+            </article>
+
         </section>
     </main>
 
     <footer>
+        <!-- Footer estándar -->
         <div class="footer-content">
             <div class="social-media">
                 <a href="#" aria-label="Facebook"><img src="../icons/facebook_placeholder.svg" alt="Facebook Pirotecnia [Nombre de la Tienda]"></a>
