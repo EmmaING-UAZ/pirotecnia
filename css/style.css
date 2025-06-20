@@ -28,13 +28,32 @@ img {
 /* Estilos para el Hero Section del Index */
 .hero-section {
     height: 100vh;
-    background-image: url('../images/fuegos artificiales.jpg'); /* Placeholder, reemplazar con imagen real */
+    background-image: url('../images/fuegos artificiales.jpg'); /* Imagen de fuegos artificiales como fondo */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     display: flex;
     flex-direction: column; /* Alinea navbar y hero-content verticalmente */
     color: #fff; /* Texto blanco para contraste con fondo oscuro */
+    position: relative;
+}
+
+/* Overlay oscuro para reducir el brillo de la imagen de fondo */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3); /* Sombra negra con 30% de opacidad */
+    z-index: 0;
+}
+
+/* Aseguramos que el contenido esté por encima del overlay */
+.hero-section > * {
+    position: relative;
+    z-index: 1;
 }
 
 /* Navbar Transparente para Index */
