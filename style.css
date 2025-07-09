@@ -237,19 +237,27 @@ body:not(.main-header-scrolled-past) .sub-navbar {
     position: relative;
     z-index: 2;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.1); /* Fondo translúcido muy sutil si la imagen es oscura */
-    /* O sin fondo si la imagen de fondo y el texto tienen buen contraste */
+    background-color: rgba(255, 255, 255, 0.15); /* Fondo translúcido sutil, ligeramente más opaco */
     border-radius: 10px;
+    color: var(--text-color-dark); /* Texto oscuro por defecto para párrafos dentro del hero */
+}
+.hero-content p { /* Si hay párrafos directos en hero-content */
+    color: var(--text-color-dark);
+    margin-bottom: 1.5em; /* Espacio antes del botón CTA */
+    font-size: 1.2em;
+    font-weight: 500;
+    text-shadow: none; /* Quitar sombra si el fondo es claro o la imagen muy brillante */
 }
 
-.hero h1 { /* Ya se maneja color con .hero h1, .catalog-hero .hero-content h1 */
+
+.hero h1 {
     font-size: 3em;
     margin-bottom: 0.5em;
-    /* color: var(--accent-color-red); */ /* Color definido en regla general de h1 */
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.2); /* Sombra más sutil para texto sobre imagen */
+    color: var(--accent-color-red); /* Asegurar que el H1 principal del hero sea rojo */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1); /* Sombra muy sutil */
 }
 
-.hero .cta-button { /* Los botones CTA ya tienen estilos base, aquí no se necesita mucho más */
+.hero .cta-button {
     padding: 12px 25px;
     font-size: 1.2em;
 }
@@ -776,17 +784,20 @@ body.no-scroll {
     position: relative;
     z-index: 2;
     padding: 20px;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(255, 255, 255, 0.15); /* Similar al hero principal */
     border-radius: 10px;
+    color: var(--text-color-dark); /* Texto oscuro por defecto */
 }
 .catalog-hero .hero-content h1 {
     font-size: 2.8em;
-    color: var(--accent-color-gold);
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    color: var(--accent-color-red); /* Título rojo */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 .catalog-hero .hero-content p {
     font-size: 1.2em;
     margin-top: 10px;
+    color: var(--text-color-dark); /* Párrafo oscuro */
+    text-shadow: none;
 }
 
 
