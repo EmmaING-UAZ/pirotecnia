@@ -1,22 +1,25 @@
 /* Importaciones de Fuentes */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;600;700&display=swap');
 
-/* Reset básico y estilos generales */
+/* Reset básico y estilos generales - TEMA CLARO */
 :root {
-    --primary-bg-color: #1a1a1a; /* Gris humo oscuro */
-    --secondary-bg-color: #2c2c2c; /* Gris un poco más claro */
-    --accent-color-red: #ff3333; /* Rojo fuego */
-    --accent-color-gold: #ffd700; /* Dorado */
-    --text-color-light: #f0f0f0; /* Blanco hueso */
-    --text-color-dark: #333333;
-    --border-color: #444444;
+    --primary-bg-color: #ffffff; /* Blanco */
+    --secondary-bg-color: #f8f9fa; /* Gris muy claro para secciones/tarjetas */
+    --accent-color-red: #e63946; /* Rojo EmmaFireworks (ajustado para mejor contraste en blanco) */
+    --accent-color-gold: #ffca3a; /* Dorado EmmaFireworks (ajustado) */
+    --text-color-light: #ffffff; /* Texto para fondos oscuros (ej. botones rojos) */
+    --text-color-dark: #212529; /* Negro/Gris oscuro para texto principal */
+    --border-color: #dee2e6; /* Gris claro para bordes */
+
     --font-primary: 'Poppins', sans-serif;
     --font-secondary: 'Montserrat', sans-serif;
-    --shadow-light: 0 4px 8px rgba(0, 0, 0, 0.2);
-    --shadow-medium: 0 6px 12px rgba(0, 0, 0, 0.3);
+
+    --shadow-light: 0 2px 4px rgba(0, 0, 0, 0.075);
+    --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.1);
+
     --transition-speed: 0.3s;
-    --header-height: 70px; /* Altura del header principal */
-    --sub-navbar-height: 50px; /* Altura de la sub-navbar */
+    --header-height: 70px;
+    --sub-navbar-height: 50px;
 }
 
 * {
@@ -27,27 +30,30 @@
 
 body {
     font-family: var(--font-primary);
-    background-color: var(--primary-bg-color);
-    color: var(--text-color-light);
+    background-color: var(--primary-bg-color); /* Fondo blanco */
+    color: var(--text-color-dark); /* Texto principal oscuro */
     line-height: 1.6;
-    overflow-x: hidden; /* Prevenir scroll horizontal por el carrito */
-    /* padding-top se ajustará con JS si el header es completamente fijo y luego desaparece */
-    /* padding-top: calc(var(--header-height) + var(--sub-navbar-height)); */ /* Se ajustará dinámicamente si es necesario */
-    padding-top: var(--header-height); /* Espacio inicial para el header principal */
+    overflow-x: hidden;
+    padding-top: var(--header-height);
 }
 
 html {
-    scroll-behavior: smooth; /* Para el desplazamiento a anclas */
+    scroll-behavior: smooth;
 }
 
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-secondary);
     margin-bottom: 0.75em;
-    color: var(--accent-color-gold);
+    color: var(--text-color-dark); /* Títulos oscuros por defecto */
+}
+/* Títulos que usan colores de acento necesitarán clases específicas o anulación */
+.hero h1, .catalog-hero .hero-content h1, .content-section h2 {
+     color: var(--accent-color-red); /* Rojo para títulos destacados */
 }
 
+
 a {
-    color: var(--accent-color-red);
+    color: var(--accent-color-red); /* Enlaces rojos por defecto */
     text-decoration: none;
     transition: color var(--transition-speed) ease;
 }
@@ -85,8 +91,9 @@ img {
 
 /* Header */
 .main-header {
-    background-color: var(--secondary-bg-color);
-    color: var(--text-color-light);
+    background-color: var(--primary-bg-color); /* Fondo blanco para header */
+    color: var(--text-color-dark); /* Texto oscuro en header */
+    border-bottom: 1px solid var(--border-color); /* Borde sutil */
     padding: 10px 5%;
     display: flex;
     justify-content: space-between;
@@ -115,21 +122,18 @@ img {
     justify-content: center;
     align-items: center;
     position: sticky;
-    top: 0; /* Se pegará aquí cuando el main-header se oculte */
+    top: 0;
     z-index: 999;
     height: var(--sub-navbar-height);
     box-shadow: var(--shadow-light);
-    /* La transición de 'top' para la sub-navbar dependerá de cómo se maneje el JS con el padding del body */
 }
 
-/* Ajuste cuando el header principal está visible y fijo */
 body:not(.main-header-scrolled-past) .sub-navbar {
     top: var(--header-height);
 }
 
-
 .sub-navbar-links a {
-    color: var(--text-color-light);
+    color: var(--text-color-light); /* Texto blanco sobre fondo rojo */
     padding: 10px 20px;
     font-size: 1em;
     font-weight: 600;
@@ -139,15 +143,14 @@ body:not(.main-header-scrolled-past) .sub-navbar {
 }
 
 .sub-navbar-links a:hover {
-    background-color: rgba(255,255,255,0.1);
-    color: var(--accent-color-gold);
+    background-color: rgba(0,0,0,0.1); /* Oscurecer ligeramente el fondo rojo */
+    color: var(--text-color-light); /* Mantener texto blanco o aclararlo */
 }
-
 
 .main-header .logo a {
     font-size: 1.8em;
     font-weight: bold;
-    color: var(--accent-color-gold);
+    color: var(--accent-color-red); /* Logo rojo para destacar en header blanco */
 }
 
 .search-bar {
@@ -159,39 +162,43 @@ body:not(.main-header-scrolled-past) .sub-navbar {
     padding: 8px 12px;
     border: 1px solid var(--border-color);
     border-radius: 5px 0 0 5px;
-    background-color: var(--primary-bg-color);
-    color: var(--text-color-light);
+    background-color: var(--secondary-bg-color); /* Fondo gris claro para input */
+    color: var(--text-color-dark); /* Texto oscuro */
     min-width: 250px;
 }
 
 .search-bar input[type="search"]::placeholder {
-    color: #aaa;
+    color: #6c757d; /* Placeholder más oscuro */
 }
 
 .search-bar button {
     padding: 8px 12px;
     background-color: var(--accent-color-red);
-    color: var(--text-color-light);
+    color: var(--text-color-light); /* Texto blanco en botón rojo */
     border-radius: 0 5px 5px 0;
     border: 1px solid var(--accent-color-red);
     border-left: none;
 }
+.search-bar button:hover {
+    background-color: #c82333; /* Rojo más oscuro para hover */
+}
+
 
 .cart-icon button {
     background: none;
-    color: var(--text-color-light);
+    color: var(--text-color-dark); /* Icono oscuro */
     font-size: 1.5em;
     position: relative;
     padding: 5px;
 }
 
 .cart-icon button:hover {
-    color: var(--accent-color-gold);
+    color: var(--accent-color-red); /* Hover rojo */
 }
 
 #cart-count {
     background-color: var(--accent-color-red);
-    color: white;
+    color: var(--text-color-light); /* Texto blanco en contador */
     border-radius: 50%;
     padding: 2px 6px;
     font-size: 0.6em;
@@ -199,6 +206,7 @@ body:not(.main-header-scrolled-past) .sub-navbar {
     top: -5px;
     right: -5px;
     font-weight: bold;
+    border: 1px solid var(--primary-bg-color); /* Borde del color del header */
 }
 
 /* Hero Section */
@@ -229,18 +237,19 @@ body:not(.main-header-scrolled-past) .sub-navbar {
     position: relative;
     z-index: 2;
     padding: 20px;
-    background-color: rgba(0, 0, 0, 0.3); /* Ligero fondo para legibilidad */
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo translúcido muy sutil si la imagen es oscura */
+    /* O sin fondo si la imagen de fondo y el texto tienen buen contraste */
     border-radius: 10px;
 }
 
-.hero h1 {
+.hero h1 { /* Ya se maneja color con .hero h1, .catalog-hero .hero-content h1 */
     font-size: 3em;
     margin-bottom: 0.5em;
-    color: var(--accent-color-gold);
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    /* color: var(--accent-color-red); */ /* Color definido en regla general de h1 */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2); /* Sombra más sutil para texto sobre imagen */
 }
 
-.hero .cta-button {
+.hero .cta-button { /* Los botones CTA ya tienen estilos base, aquí no se necesita mucho más */
     padding: 12px 25px;
     font-size: 1.2em;
 }
@@ -251,9 +260,10 @@ body:not(.main-header-scrolled-past) .sub-navbar {
     text-align: center;
 }
 
-.categories-section h2 {
+.categories-section h2 { /* Título de sección (ej. "Categorías Principales") */
     font-size: 2.5em;
     margin-bottom: 30px;
+    color: var(--text-color-dark); /* Texto oscuro */
 }
 
 .categories-grid {
@@ -263,40 +273,45 @@ body:not(.main-header-scrolled-past) .sub-navbar {
 }
 
 .category-card {
-    background-color: var(--secondary-bg-color);
+    background-color: var(--secondary-bg-color); /* Fondo gris muy claro */
     padding: 20px;
     border-radius: 10px;
     box-shadow: var(--shadow-light);
     text-align: center;
     transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    border: 1px solid var(--border-color); /* Borde sutil */
 }
 
 .category-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-medium);
+    border-color: var(--accent-color-red);
 }
 
 .category-icon {
-    font-size: 3em; /* Ajustar según los íconos reales */
+    font-size: 3em;
     margin-bottom: 15px;
     line-height: 1;
+    color: var(--accent-color-red); /* Iconos de categoría en rojo */
 }
 
-.category-card h3 {
+.category-card h3 { /* Nombre de la categoría */
     font-size: 1.5em;
     margin-bottom: 15px;
-    color: var(--text-color-light);
+    color: var(--text-color-dark); /* Texto oscuro */
 }
 
 /* Products Section */
 .products-section {
     padding: 40px 5%;
     text-align: center;
+    /* background-color: var(--primary-bg-color); /* Fondo blanco ya es el del body */
 }
 
-.products-section h2 {
+.products-section h2 { /* Título (ej. "Productos Recomendados") */
     font-size: 2.5em;
     margin-bottom: 30px;
+    color: var(--text-color-dark);
 }
 
 .products-grid {
@@ -306,9 +321,10 @@ body:not(.main-header-scrolled-past) .sub-navbar {
 }
 
 .product-card {
-    background-color: var(--secondary-bg-color);
+    background-color: var(--primary-bg-color); /* Fondo blanco para tarjetas de producto */
     border-radius: 10px;
     box-shadow: var(--shadow-light);
+    border: 1px solid var(--border-color);
     overflow: hidden;
     text-align: left;
     transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
@@ -319,51 +335,55 @@ body:not(.main-header-scrolled-past) .sub-navbar {
 .product-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-medium);
+    border-color: var(--accent-color-red);
 }
 
 .product-card img {
     width: 100%;
-    height: 200px; /* Altura fija para imágenes */
-    object-fit: cover; /* Para que la imagen cubra sin deformarse */
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid var(--border-color); /* Separador sutil */
 }
 
 .product-card .product-info {
     padding: 15px;
-    flex-grow: 1; /* Para que el contenido ocupe el espacio y el botón quede abajo */
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.product-card h3 {
+.product-card h3 { /* Nombre del producto */
     font-size: 1.3em;
     margin-bottom: 10px;
-    color: var(--text-color-light);
+    color: var(--text-color-dark);
 }
 
 .product-card .product-price {
     font-size: 1.2em;
-    color: var(--accent-color-gold);
+    color: var(--accent-color-red); /* Precio en rojo */
     margin-bottom: 15px;
     font-weight: bold;
 }
 
-.product-card button {
+.product-card button { /* Botón "Agregar al carrito" en tarjeta */
     width: 100%;
     padding: 12px;
+    /* Estilos base de .cta-button ya se aplican (fondo rojo, texto blanco) */
 }
 
 /* Side Cart */
 .side-cart {
     position: fixed;
     top: 0;
-    right: -100%; /* Inicialmente oculto fuera de la pantalla */
-    width: 35%; /* Ancho del carrito */
-    max-width: 450px; /* Ancho máximo */
-    min-width: 300px; /* Ancho mínimo */
+    right: -100%;
+    width: 35%;
+    max-width: 450px;
+    min-width: 300px;
     height: 100%;
-    background-color: var(--secondary-bg-color);
-    box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+    background-color: var(--primary-bg-color); /* Carrito con fondo blanco */
+    color: var(--text-color-dark); /* Texto oscuro en carrito */
+    box-shadow: -5px 0 15px rgba(0,0,0,0.15); /* Sombra más pronunciada */
     z-index: 1002;
     transition: right var(--transition-speed) ease-in-out;
     display: flex;
@@ -380,23 +400,24 @@ body:not(.main-header-scrolled-past) .sub-navbar {
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    background-color: var(--primary-bg-color); /* Un poco más oscuro para destacar */
+    background-color: var(--secondary-bg-color); /* Fondo gris claro para header del carrito */
     border-bottom: 1px solid var(--border-color);
 }
 
-.cart-header h3 {
+.cart-header h3 { /* "Tu Carrito" */
     margin: 0;
     font-size: 1.5em;
+    color: var(--text-color-dark);
 }
 
-.close-cart-btn {
+.close-cart-btn { /* Botón 'X' */
     background: none;
-    color: var(--text-color-light);
+    color: var(--text-color-dark); /* 'X' oscura */
     font-size: 2em;
     padding: 0 5px;
 }
 .close-cart-btn:hover {
-    color: var(--accent-color-red);
+    color: var(--accent-color-red); /* 'X' roja al pasar el mouse */
 }
 
 .cart-items {
@@ -423,21 +444,23 @@ body:not(.main-header-scrolled-past) .sub-navbar {
     object-fit: cover;
     border-radius: 5px;
     margin-right: 15px;
+    border: 1px solid var(--border-color);
 }
 
 .cart-item-info {
     flex-grow: 1;
 }
 
-.cart-item-info h4 {
+.cart-item-info h4 { /* Nombre del producto en carrito */
     font-size: 1em;
     margin-bottom: 5px;
-    color: var(--text-color-light);
+    color: var(--text-color-dark);
 }
 
-.cart-item-info p {
+.cart-item-info p { /* Precio, subtotal en carrito */
     font-size: 0.9em;
     margin-bottom: 5px;
+    color: #555; /* Texto un poco más claro para detalles */
 }
 
 .cart-item-quantity {
@@ -445,15 +468,18 @@ body:not(.main-header-scrolled-past) .sub-navbar {
     align-items: center;
     margin-right: 10px;
 }
-.cart-item-quantity button {
+.cart-item-quantity button { /* Botones +/- cantidad */
     padding: 2px 6px;
     font-size: 0.8em;
     margin: 0 5px;
     background-color: var(--accent-color-red);
-    color: white;
+    color: var(--text-color-light); /* Texto blanco */
+}
+.cart-item-quantity button:hover {
+    background-color: #c82333;
 }
 
-.cart-item-remove-btn {
+.cart-item-remove-btn { /* Botón "Eliminar" en carrito */
     background-color: transparent;
     color: var(--accent-color-red);
     border: 1px solid var(--accent-color-red);
@@ -462,20 +488,20 @@ body:not(.main-header-scrolled-past) .sub-navbar {
 }
 .cart-item-remove-btn:hover {
     background-color: var(--accent-color-red);
-    color: white;
+    color: var(--text-color-light);
 }
 
 
 .empty-cart-message {
     text-align: center;
     padding: 20px;
-    color: #aaa;
+    color: #6c757d; /* Mensaje de carrito vacío, gris */
 }
 
 .cart-footer {
     padding: 15px 20px;
     border-top: 1px solid var(--border-color);
-    background-color: var(--primary-bg-color);
+    background-color: var(--secondary-bg-color); /* Fondo gris claro para footer del carrito */
 }
 
 .cart-total {
@@ -484,21 +510,22 @@ body:not(.main-header-scrolled-past) .sub-navbar {
     font-size: 1.2em;
     font-weight: bold;
     margin-bottom: 15px;
+    color: var(--text-color-dark);
 }
-.cart-total span {
-    color: var(--accent-color-gold);
+.cart-total span { /* Monto total */
+    color: var(--accent-color-red); /* Total en rojo */
 }
 
-.checkout-button {
+.checkout-button { /* Botón "Finalizar Compra" */
     width: 100%;
     padding: 12px;
     background-color: var(--accent-color-gold);
-    color: var(--text-color-dark);
+    color: var(--text-color-dark); /* Texto oscuro sobre dorado */
     font-weight: bold;
     font-size: 1.1em;
 }
 .checkout-button:hover {
-    background-color: #ccac00; /* Dorado más oscuro */
+    background-color: #e0a800; /* Dorado más oscuro */
 }
 
 .cart-overlay {
@@ -507,7 +534,7 @@ body:not(.main-header-scrolled-past) .sub-navbar {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.4); /* Overlay un poco más claro */
     z-index: 1001;
     opacity: 0;
     visibility: hidden;
@@ -522,19 +549,20 @@ body:not(.main-header-scrolled-past) .sub-navbar {
 
 /* Footer */
 .main-footer {
-    background-color: var(--secondary-bg-color);
-    color: #aaa;
+    background-color: var(--secondary-bg-color); /* Footer gris claro */
+    color: #6c757d; /* Texto gris en footer */
     text-align: center;
     padding: 20px 5%;
-    margin-top: 30px; /* Separación del contenido */
+    margin-top: 30px;
     border-top: 1px solid var(--border-color);
 }
 
 .main-footer a {
-    color: var(--accent-color-gold);
+    color: var(--accent-color-red); /* Enlaces rojos en footer */
 }
 .main-footer a:hover {
     text-decoration: underline;
+    color: #c82333;
 }
 
 /* WhatsApp Float Button */
@@ -719,47 +747,9 @@ body.no-scroll {
     overflow: hidden;
 }
 
-/* Modal de Confirmación de Edad */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.8); /* Más oscuro para el age gate */
-    z-index: 2000; /* Por encima de todo */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity var(--transition-speed) ease-in-out, visibility var(--transition-speed) ease-in-out;
-}
+/* Estilos del Modal de Edad eliminados */
 
-.modal-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.modal-content {
-    background-color: var(--secondary-bg-color);
-    padding: 30px 40px;
-    border-radius: 10px;
-    box-shadow: var(--shadow-medium);
-    text-align: center;
-    max-width: 500px;
-    width: 90%;
-    border: 1px solid var(--accent-color-gold);
-    position: relative; /* Para posible botón de cierre futuro */
-    transform: scale(0.9);
-    transition: transform var(--transition-speed) ease-in-out;
-}
-
-.modal-overlay.active .modal-content {
-    transform: scale(1);
-}
-
-.catalog-hero { /* Estilos similares al hero, pero se puede personalizar */
+.catalog-hero {
     position: relative;
     height: 50vh; /* Un poco más bajo que el hero principal */
     display: flex;
@@ -895,46 +885,40 @@ body.no-scroll {
 body.modal-open {
     overflow: hidden; /* Evitar scroll del fondo */
 }
-/* Podríamos añadir un filtro al main cuando el modal está activo */
-/*
-body.modal-open main:not(#age-gate-modal),
-body.modal-open .main-header:not(#age-gate-modal),
-body.modal-open .main-footer:not(#age-gate-modal),
-body.modal-open .sub-navbar:not(#age-gate-modal) {
-    filter: blur(5px);
-}
-*/
+/* Comentarios de body.modal-open eliminados ya que el modal no existe */
 
 /* Content Sections for Info/Contacto */
 .content-section {
     padding: 40px 5%;
-    background-color: var(--primary-bg-color); /* Ajustado para mejor contraste con el tema oscuro */
-    margin: 30px auto; /* Margen vertical y centrado horizontal */
+    background-color: var(--secondary-bg-color); /* Fondo gris claro para estas secciones */
+    margin: 30px auto;
     border-radius: 8px;
-    max-width: 960px; /* Ancho máximo para mejor legibilidad */
+    max-width: 960px;
     box-shadow: var(--shadow-light);
+    border: 1px solid var(--border-color);
 }
-.content-section:target { /* Estilo para cuando se navega a la sección por ancla */
+.content-section:target {
     animation: highlightSection 0.8s ease-out;
 }
-@keyframes highlightSection {
-    0% { background-color: var(--accent-color-gold); }
-    100% { background-color: var(--primary-bg-color); }
+@keyframes highlightSection { /* Animación de resaltado al navegar a ancla */
+    0% { background-color: var(--accent-color-gold); } /* Resaltado dorado */
+    70% { background-color: var(--accent-color-gold); } /* Mantener resaltado */
+    100% { background-color: var(--secondary-bg-color); } /* Volver a color normal */
 }
 
-.content-section h2 {
+.content-section h2 { /* Títulos de sección (Información, Contacto) */
     font-size: 2.2em;
     margin-bottom: 25px;
     border-bottom: 2px solid var(--accent-color-red);
     padding-bottom: 10px;
-    display: inline-block; /* Para que el borde solo ocupe el texto */
-    color: var(--accent-color-gold);
+    display: inline-block;
+    color: var(--accent-color-red); /* Títulos de sección en rojo */
 }
 .content-section p, .content-section ul {
     margin-bottom: 20px;
     font-size: 1.1em;
     line-height: 1.7;
-    color: var(--text-color-light);
+    color: var(--text-color-dark); /* Texto oscuro */
 }
 .content-section ul {
     list-style: disc;
@@ -943,13 +927,13 @@ body.modal-open .sub-navbar:not(#age-gate-modal) {
 .content-section ul li {
     margin-bottom: 10px;
 }
-.content-section a {
+.content-section a { /* Enlaces dentro de estas secciones */
     color: var(--accent-color-red);
     font-weight: 600;
 }
 .content-section a:hover {
     text-decoration: underline;
-    color: var(--accent-color-gold);
+    color: #c82333; /* Rojo más oscuro */
 }
 
 /* Floating Action Buttons Container */

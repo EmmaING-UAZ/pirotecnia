@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const cartTotalAmount = document.getElementById('cart-total-amount');
     const cartCount = document.getElementById('cart-count');
     const cartOverlay = document.getElementById('cart-overlay');
-    const ageGateModal = document.getElementById('age-gate-modal');
-    const confirmAgeBtn = document.getElementById('confirm-age-btn');
+    // const ageGateModal = document.getElementById('age-gate-modal'); // Eliminado
+    // const confirmAgeBtn = document.getElementById('confirm-age-btn'); // Eliminado
     const mainHeader = document.querySelector('.main-header');
     const subNavbar = document.querySelector('.sub-navbar');
     const floatingCartBtn = document.getElementById('floating-cart-btn');
@@ -323,37 +323,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Age Gate Logic ---
-    function handleAgeGate() {
-        const initialFilter = currentPage === 'catalog' ? currentCatalogFilter : 'all'; // Use pre-filtered value for catalog
-
-        if (!ageGateModal || !confirmAgeBtn) {
-            renderProducts(initialFilter);
-            applyFadeInAnimations();
-            return;
-        }
-
-        const ageConfirmed = localStorage.getItem('emmaFireworksAgeConfirmed');
-        if (ageConfirmed === 'true') {
-            ageGateModal.classList.remove('active');
-            document.body.classList.remove('modal-open');
-            renderProducts(initialFilter);
-            applyFadeInAnimations();
-            return;
-        }
-
-        ageGateModal.classList.add('active');
-        document.body.classList.add('modal-open');
-        confirmAgeBtn.addEventListener('click', () => {
-            localStorage.setItem('emmaFireworksAgeConfirmed', 'true');
-            ageGateModal.classList.remove('active');
-            document.body.classList.remove('modal-open');
-            renderProducts(initialFilter);
-            applyFadeInAnimations();
-        });
-    }
+    // --- Age Gate Logic (Eliminada) ---
+    // function handleAgeGate() { ... }
 
     // --- Initialization ---
-    loadCartFromLocalStorage(); // Load cart state first
-    handleAgeGate(); // Manage age confirmation, then render products and animations
+    loadCartFromLocalStorage(); // Cargar estado del carrito
+
+    // Determinar el filtro inicial para la página de catálogo (considerando el parámetro URL)
+    let initialFilterForRender = 'all';
+    if (currentPage === 'catalog') {
+        initialFilterForRender = currentCatalogFilter; // currentCatalogFilter ya fue ajustado por la lógica de URL params
+    }
+    renderProducts(initialFilterForRender); // Renderizar productos (recomendados o catálogo completo/filtrado)
+
+    applyFadeInAnimations(); // Aplicar animaciones de entrada a las secciones
 });
