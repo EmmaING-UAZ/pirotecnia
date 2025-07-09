@@ -14,6 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const subNavbar = document.querySelector('.sub-navbar');
     const floatingCartBtn = document.getElementById('floating-cart-btn');
     const floatingCartCount = document.getElementById('floating-cart-count');
+    const hamburgerMenuBtn = document.querySelector('.hamburger-menu-btn');
+    const mobileMenuPanel = document.querySelector('.mobile-menu-panel');
+    const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
 
 
     // --- Page Identification ---
@@ -160,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <span>${item.quantity}</span>
                         <button class="quantity-change" data-id="${item.id}" data-action="increase">+</button>
                     </div>
-                    <button class="cart-item-remove-btn" data-id="${item.id}">Eliminar</button>
+                    <button class="cart-item-remove-btn" data-id="${item.id}" aria-label="Eliminar producto">🗑️</button>
                 `;
                 cartItemsList.appendChild(cartItemElement);
             });
@@ -224,7 +227,38 @@ document.addEventListener('DOMContentLoaded', () => {
     if (cartButton) cartButton.addEventListener('click', toggleCart);
     if (closeCartBtn) closeCartBtn.addEventListener('click', toggleCart);
     if (cartOverlay) cartOverlay.addEventListener('click', toggleCart);
-    if (floatingCartBtn) floatingCartBtn.addEventListener('click', toggleCart); // Nuevo botón flotante
+    if (floatingCartBtn) floatingCartBtn.addEventListener('click', toggleCart);
+
+    // --- Hamburger Menu Logic ---
+    if (hamburgerMenuBtn && mobileMenuPanel) {
+        hamburgerMenuBtn.addEventListener('click', () => {
+            mobileMenuPanel.classList.toggle('mobile-menu-open');
+            hamburgerMenuBtn.classList.toggle('active');
+            if (mobileMenuOverlay) mobileMenuOverlay.classList.toggle('active');
+            document.body.classList.toggle('no-scroll-menu'); // Para evitar scroll del body cuando el menú está abierto
+        });
+
+        if (mobileMenuOverlay) {
+            mobileMenuOverlay.addEventListener('click', () => {
+                mobileMenuPanel.classList.remove('mobile-menu-open');
+                hamburgerMenuBtn.classList.remove('active');
+                mobileMenuOverlay.classList.remove('active');
+                document.body.classList.remove('no-scroll-menu');
+            });
+        }
+
+        // Cerrar menú al hacer clic en un enlace dentro del panel
+        const mobileMenuLinks = mobileMenuPanel.querySelectorAll('a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuPanel.classList.remove('mobile-menu-open');
+                hamburgerMenuBtn.classList.remove('active');
+                if (mobileMenuOverlay) mobileMenuOverlay.classList.remove('active');
+                document.body.classList.remove('no-scroll-menu');
+            });
+        });
+    }
+
 
     // --- Header Scroll Logic ---
     let lastScrollTop = 0;

@@ -117,9 +117,9 @@ img {
 /* Sub Navbar */
 .sub-navbar {
     background-color: var(--accent-color-red);
-    padding: 0 5%;
-    display: flex;
-    justify-content: center;
+    /* padding: 0 5%; quitado para que el botón hamburguesa pueda estar a la izquierda */
+    display: flex; /* Para alinear el botón hamburguesa y el panel si fuera necesario */
+    justify-content: space-between; /* Para botón a la izquierda y links (en desktop) a la derecha/centro */
     align-items: center;
     position: sticky;
     top: 0;
@@ -132,20 +132,65 @@ body:not(.main-header-scrolled-past) .sub-navbar {
     top: var(--header-height);
 }
 
+.hamburger-menu-btn {
+    display: none; /* Oculto en desktop por defecto */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px 15px; /* Padding para hacerlo más fácil de clickear */
+    z-index: 1001; /* Encima del panel del menú */
+}
+.hamburger-menu-btn span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--text-color-light); /* Rayas blancas */
+    margin: 5px 0;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Animación del botón hamburguesa a 'X' */
+.hamburger-menu-btn.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+.hamburger-menu-btn.active span:nth-child(2) {
+    opacity: 0;
+}
+.hamburger-menu-btn.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+
+.mobile-menu-panel {
+    display: none; /* Oculto por defecto, se mostrará con JS y media queries */
+    /* Estilos para cuando es un panel lateral en móvil */
+}
+
+.sub-navbar-links { /* Contenedor de los enlaces */
+    display: flex; /* Por defecto para escritorio */
+    justify-content: center; /* Centrar enlaces en desktop */
+    width: 100%; /* Ocupar espacio para centrar */
+}
+
 .sub-navbar-links a {
-    color: var(--text-color-light); /* Texto blanco sobre fondo rojo */
-    padding: 10px 20px;
+    color: var(--text-color-light);
+    padding: 0 20px; /* Padding horizontal solo para desktop */
+    line-height: var(--sub-navbar-height); /* Centrar verticalmente el texto */
     font-size: 1em;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+    display: block; /* Para que ocupe toda la altura y padding funcione bien */
 }
 
 .sub-navbar-links a:hover {
-    background-color: rgba(0,0,0,0.1); /* Oscurecer ligeramente el fondo rojo */
-    color: var(--text-color-light); /* Mantener texto blanco o aclararlo */
+    background-color: rgba(0,0,0,0.1);
+    color: var(--text-color-light);
 }
+
+/* En la vista de escritorio, el panel móvil no se usa como panel lateral */
+/* Los .sub-navbar-links se muestran directamente */
 
 .main-header .logo a {
     font-size: 1.8em;
@@ -707,15 +752,31 @@ body:not(.main-header-scrolled-past) .sub-navbar {
         gap: 20px;
     }
     .product-card {
-        max-width: 350px; /* Evitar que se estire demasiado */
+        max-width: 350px;
         margin: 0 auto;
     }
 
     .side-cart {
-        width: 85%;
+        width: 100%; /* Carrito ocupa todo el ancho en móvil */
         max-width: none;
         min-width: unset;
+        border-left: none; /* Quitar borde izquierdo ya que ocupa toda la pantalla */
+        /* Si se quisiera un pequeño margen alrededor en lugar de pegado a los bordes: */
+        /* width: calc(100% - 20px);
+           height: calc(100vh - 20px);
+           top: 10px;
+           right: -100%; (y ajustar .open a right: 10px;)
+           border-radius: 10px;
+           box-shadow: 0 0 15px rgba(0,0,0,0.2); */
     }
+    .cart-item-remove-btn { /* Ajustes para el botón de eliminar con ícono */
+        padding: 8px; /* Ajustar padding para ícono */
+        line-height: 1; /* Para centrar mejor el ícono si es un emoji */
+        min-width: 30px; /* Ancho mínimo */
+        min-height: 30px; /* Alto mínimo */
+        font-size: 1.2em; /* Tamaño del ícono (emoji) */
+    }
+
 
     .whatsapp-float {
         width: 50px;
@@ -823,10 +884,10 @@ body.no-scroll {
 
 .filter-btn {
     padding: 10px 20px;
-    background-color: var(--secondary-bg-color);
-    color: var(--text-color-light);
+    background-color: var(--secondary-bg-color); /* Fondo gris claro */
+    color: var(--text-color-dark); /* Texto oscuro por defecto */
     border: 1px solid var(--border-color);
-    border-radius: 25px; /* Botones más redondeados */
+    border-radius: 25px;
     font-size: 0.9em;
     transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, border-color var(--transition-speed) ease;
 }
@@ -834,16 +895,16 @@ body.no-scroll {
 .filter-btn:hover {
     background-color: var(--accent-color-red);
     border-color: var(--accent-color-red);
-    color: white;
-    transform: none; /* Quitar el efecto de elevación para estos botones */
+    color: var(--text-color-light); /* Texto blanco en hover */
+    transform: none;
     box-shadow: none;
 }
 
 .filter-btn.active {
-    background-color: var(--accent-color-gold);
-    color: var(--text-color-dark);
+    background-color: var(--accent-color-red); /* Estado activo también con fondo rojo */
+    color: var(--text-color-light); /* Texto blanco en estado activo */
     font-weight: bold;
-    border-color: var(--accent-color-gold);
+    border-color: var(--accent-color-red); /* Borde rojo */
 }
 
 .products-section .loading-message { /* Para mensajes de carga en index y catálogo */
@@ -959,11 +1020,11 @@ body.modal-open {
 }
 
 /* Estilo base para los FABs */
-.fab-cart-btn, /* Cambiado de fab-cart para evitar conflicto con .cart-icon si lo hubiera */
+.fab-cart-btn,
 .whatsapp-float {
-    width: 55px; /* Ligeramente más pequeños */
-    height: 55px;
-    border-radius: 50%;
+    width: 60px; /* Volver al tamaño original o el deseado */
+    height: 60px;
+    border-radius: 50%; /* Esto ya debería hacerlo redondo si width y height son iguales */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1017,44 +1078,114 @@ body.modal-open {
 
 /* Ajustes de responsividad para sub-navbar y FABs */
 @media (max-width: 768px) {
+    /* --- Sub Navbar en Móvil --- */
     .sub-navbar {
-        padding: 0 3%;
-        height: auto; /* Permitir que se ajuste si los links se envuelven */
-        top: 0; /* Siempre se pega arriba en móvil si el header principal se oculta */
+        justify-content: flex-start;
+        padding: 0;
     }
     body:not(.main-header-scrolled-past) .sub-navbar {
-        top: var(--header-height-mobile, 100px); /* Usar una variable para la altura del header en móvil si cambia */
+        top: var(--header-height-mobile, 100px); /* Usar variable para altura de header en móvil */
     }
-    .sub-navbar-links {
-        display: flex;
-        flex-wrap: wrap; /* Permitir que los links se envuelvan */
-        justify-content: center;
-        width: 100%;
-    }
-    .sub-navbar-links a {
-        font-size: 0.85em;
-        padding: 8px 10px;
+     body.main-header-scrolled-past .sub-navbar {
+        top: 0;
     }
 
+    .hamburger-menu-btn {
+        display: block;
+    }
+
+    .sub-navbar-links {
+        display: none;
+    }
+
+    .mobile-menu-panel {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 280px;
+        max-width: 80%;
+        height: 100vh;
+        background-color: var(--secondary-bg-color);
+        color: var(--text-color-dark);
+        box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+        z-index: 1000;
+        padding-top: 20px; /* Reducir padding-top, se ajustará si es necesario para no solapar con header si este no se oculta */
+        /* Si el header principal NO se oculta en móvil y es fijo, el padding-top del panel debería ser:
+        /* padding-top: calc(var(--header-height-mobile, 100px) + var(--sub-navbar-height) + 10px); */
+    }
+    .mobile-menu-panel.mobile-menu-open {
+        transform: translateX(0);
+    }
+
+    .mobile-menu-panel .sub-navbar-links {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: flex-start;
+    }
+    .mobile-menu-panel .sub-navbar-links a {
+        color: var(--text-color-dark);
+        padding: 15px 25px;
+        width: 100%;
+        line-height: normal;
+        border-bottom: 1px solid var(--border-color);
+        font-size: 1.1em;
+    }
+    .mobile-menu-panel .sub-navbar-links a:hover {
+        background-color: var(--accent-color-red);
+        color: var(--text-color-light);
+    }
+    .mobile-menu-panel .sub-navbar-links a:last-child {
+        border-bottom: none;
+    }
+
+    .mobile-menu-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 998;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+    .mobile-menu-overlay.active {
+        display: block;
+        opacity: 1;
+    }
+
+    body.no-scroll-menu {
+        overflow: hidden;
+    }
+
+    /* --- Floating Action Buttons en Móvil --- */
     .floating-action-buttons {
-        bottom: 15px;
-        right: 15px;
-        gap: 10px;
+        bottom: 20px; /* Un poco más de espacio desde abajo */
+        right: 20px;  /* Un poco más de espacio desde la derecha */
+        gap: 12px;    /* Espacio entre botones ligeramente reducido si es necesario */
     }
     .fab-cart-btn,
     .whatsapp-float {
-        width: 50px;
-        height: 50px;
+        width: 55px;  /* Ligeramente más pequeños para no ser tan intrusivos */
+        height: 55px;
     }
     .fab-cart-btn {
-        font-size: 1.5em;
+        font-size: 1.4em; /* Ajustar tamaño del ícono del carrito */
     }
     #floating-cart-count {
-        font-size: 0.5em;
+        font-size: 0.5em; /* Mantener o ajustar según el tamaño del botón */
+        top: -2px; /* Reajustar posición del contador si el botón cambió de tamaño */
+        right: -2px;
     }
     .whatsapp-float svg.whatsapp-ico {
-        width: 24px;
-        height: 24px;
+        width: 26px; /* Ajustar SVG de WhatsApp */
+        height: 26px;
     }
 
     .content-section {
