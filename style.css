@@ -707,6 +707,100 @@ body.no-scroll {
     transform: scale(1);
 }
 
+.catalog-hero { /* Estilos similares al hero, pero se puede personalizar */
+    position: relative;
+    height: 50vh; /* Un poco más bajo que el hero principal */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    overflow: hidden;
+}
+
+.catalog-hero .hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.6);
+    z-index: 1;
+}
+
+.catalog-hero .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+.catalog-hero .hero-content h1 {
+    font-size: 2.8em;
+    color: var(--accent-color-gold);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
+.catalog-hero .hero-content p {
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+
+
+.catalog-filters-section {
+    padding: 30px 5%;
+    text-align: center;
+    background-color: var(--primary-bg-color); /* Ligeramente diferente para destacar */
+    border-bottom: 1px solid var(--border-color);
+}
+
+.catalog-filters-section h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: var(--text-color-light);
+}
+
+.filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.filter-btn {
+    padding: 10px 20px;
+    background-color: var(--secondary-bg-color);
+    color: var(--text-color-light);
+    border: 1px solid var(--border-color);
+    border-radius: 25px; /* Botones más redondeados */
+    font-size: 0.9em;
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+}
+
+.filter-btn:hover {
+    background-color: var(--accent-color-red);
+    border-color: var(--accent-color-red);
+    color: white;
+    transform: none; /* Quitar el efecto de elevación para estos botones */
+    box-shadow: none;
+}
+
+.filter-btn.active {
+    background-color: var(--accent-color-gold);
+    color: var(--text-color-dark);
+    font-weight: bold;
+    border-color: var(--accent-color-gold);
+}
+
+.products-section .loading-message { /* Para mensajes de carga en index y catálogo */
+    text-align: center;
+    font-size: 1.2em;
+    color: #aaa;
+    padding: 40px;
+}
+
+
 .modal-content h2 {
     font-size: 2em;
     color: var(--accent-color-gold);

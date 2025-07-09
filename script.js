@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- DOM Elements ---
     const productsGridContainer = document.getElementById('products-grid-container');
     const cartButton = document.getElementById('cart-button');
     const sideCart = document.getElementById('side-cart');
@@ -7,12 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const cartTotalAmount = document.getElementById('cart-total-amount');
     const cartCount = document.getElementById('cart-count');
     const cartOverlay = document.getElementById('cart-overlay');
-    const exploreCatalogBtn = document.getElementById('explore-catalog-btn');
-    const productsSection = document.getElementById('products');
     const ageGateModal = document.getElementById('age-gate-modal');
     const confirmAgeBtn = document.getElementById('confirm-age-btn');
 
-    // Datos de productos (JSON simulado)
+    // --- Page Identification ---
+    const currentPage = document.body.id === 'page-catalog' ? 'catalog' : 'index';
+
+    // --- Product Data ---
     const products = [
         { id: 1, name: 'Bengala "Chispitas Felices"', price: 5.99, image: 'https://placehold.co/300x200/FF3333/FFFFFF/png?text=Bengala', category: 'Juguetería' },
         { id: 2, name: 'Petardo "Trueno Lejano"', price: 12.50, image: 'https://placehold.co/300x200/FFD700/000000/png?text=Petardo', category: 'Juguetería' },
@@ -22,17 +24,48 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 6, name: 'Humo Revelación Rosa', price: 18.75, image: 'https://placehold.co/300x200/FFC0CB/000000/png?text=Humo+Rosa', category: 'Revelaciones de Género' },
         { id: 7, name: 'Cake Profesional "Apocalipsis Show" 100T', price: 199.99, image: 'https://placehold.co/300x200/800080/FFFFFF/png?text=Cake+Pro+100T', category: 'Pirotecnia Profesional' },
         { id: 8, name: 'Chispero LED (Pack 10)', price: 15.00, image: 'https://placehold.co/300x200/FFFFFF/000000/png?text=Chispero+LED', category: 'Pirotecnia Fría' },
+        { id: 9, name: 'Traca "Final Festivo" 20m', price: 35.50, image: 'https://placehold.co/300x200/FFA500/000000/png?text=Traca+20m', category: 'Pirotecnia Profesional' },
+        { id: 10, name: 'Set Infantil "Peque Explosión"', price: 29.99, image: 'https://placehold.co/300x200/008000/FFFFFF/png?text=Set+Infantil', category: 'Juguetería' },
     ];
 
+    // --- Cart State ---
     let cart = [];
+    let currentCatalogFilter = 'all'; // Default filter for catalog page
+    const recommendedProductsCount = 3;
 
-    // Cargar productos en la galería
-    function renderProducts() {
+    // --- Product Rendering Logic ---
+    function renderProducts(filter = 'all', searchTerm = '') {
         if (!productsGridContainer) return;
-        productsGridContainer.innerHTML = ''; // Limpiar antes de renderizar
-        products.forEach(product => {
+        productsGridContainer.innerHTML = ''; // Clear previous products
+
+        let productsToRender = [...products]; // Use a copy for manipulation
+
+        if (currentPage === 'catalog') {
+            // Apply category filter
+            if (filter !== 'all') {
+                productsToRender = productsToRender.filter(p => p.category === filter);
+            }
+            // Apply search term filter (simple name search)
+            if (searchTerm.trim() !== '') {
+                const lowerSearchTerm = searchTerm.trim().toLowerCase();
+                productsToRender = productsToRender.filter(p => p.name.toLowerCase().includes(lowerSearchTerm));
+            }
+        } else if (currentPage === 'index') {
+            // Display a fixed number of recommended products on the index page
+            productsToRender = products.slice(0, recommendedProductsCount);
+        }
+
+        if (productsToRender.length === 0) {
+            const message = currentPage === 'catalog' ? 'No hay productos que coincidan con tu búsqueda o filtro.' : 'No hay productos recomendados disponibles en este momento.';
+            productsGridContainer.innerHTML = `<p class="loading-message">${message}</p>`;
+            return;
+        }
+
+        productsToRender.forEach(product => {
             const productCard = document.createElement('div');
             productCard.classList.add('product-card');
+            // Note: Fade-in for individual cards can be added here if desired upon each render
+            // For now, main sections fade-in, and cards appear with the section.
             productCard.innerHTML = `
                 <img src="${product.image}" alt="${product.name}">
                 <div class="product-info">
@@ -46,38 +79,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
             productsGridContainer.appendChild(productCard);
-
-            // Animación fade-in para cada tarjeta
-            productCard.classList.add('fade-in');
         });
 
-        // Añadir event listeners a los botones "Agregar al carrito"
+        addEventListenersToCartButtons();
+    }
+
+    function addEventListenersToCartButtons() {
         document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+            if (button.dataset.listenerAttached === 'true') return; // Prevent duplicate listeners
+            button.dataset.listenerAttached = 'true';
             button.addEventListener('click', (e) => {
                 const id = parseInt(e.target.dataset.id);
                 addToCart(id);
-                // Animación de bounce en el botón
                 e.target.classList.add('product-bounce');
                 setTimeout(() => e.target.classList.remove('product-bounce'), 600);
             });
         });
     }
 
-    // Cargar carrito desde localStorage
+    // --- Cart Functionality ---
     function loadCartFromLocalStorage() {
         const storedCart = localStorage.getItem('emmaFireworksCart');
         if (storedCart) {
             cart = JSON.parse(storedCart);
-            updateCartView();
         }
+        updateCartView(); // Update view even if cart is empty (to show "empty" message)
     }
 
-    // Guardar carrito en localStorage
     function saveCartToLocalStorage() {
         localStorage.setItem('emmaFireworksCart', JSON.stringify(cart));
     }
 
-    // Agregar producto al carrito
     function addToCart(productId) {
         const product = products.find(p => p.id === productId);
         if (!product) return;
@@ -90,19 +122,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         updateCartView();
         saveCartToLocalStorage();
-
-        // Animar ícono del carrito
-        if (cartButton) {
+        if (cartButton) { // Animate cart icon
             cartButton.classList.add('product-bounce');
             setTimeout(() => cartButton.classList.remove('product-bounce'), 600);
         }
     }
 
-    // Actualizar la vista del carrito
     function updateCartView() {
         if (!cartItemsList || !cartTotalAmount || !cartCount) return;
-
-        cartItemsList.innerHTML = ''; // Limpiar vista actual
+        cartItemsList.innerHTML = '';
         let total = 0;
         let totalItems = 0;
 
@@ -115,7 +143,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const itemSubtotal = item.price * item.quantity;
                 total += itemSubtotal;
                 totalItems += item.quantity;
-
                 cartItemElement.innerHTML = `
                     <img src="${item.image}" alt="${item.name}">
                     <div class="cart-item-info">
@@ -133,20 +160,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 cartItemsList.appendChild(cartItemElement);
             });
         }
-
         cartTotalAmount.textContent = `$${total.toFixed(2)}`;
         cartCount.textContent = totalItems;
+        addEventListenersToCartItemControls();
+    }
 
-        // Event listeners para botones de cantidad y eliminar en el carrito
+    function addEventListenersToCartItemControls() {
         document.querySelectorAll('.quantity-change').forEach(button => {
+            if (button.dataset.listenerAttached === 'true') return;
+            button.dataset.listenerAttached = 'true';
             button.addEventListener('click', (e) => {
                 const id = parseInt(e.target.dataset.id);
                 const action = e.target.dataset.action;
                 changeQuantity(id, action);
             });
         });
-
         document.querySelectorAll('.cart-item-remove-btn').forEach(button => {
+            if (button.dataset.listenerAttached === 'true') return;
+            button.dataset.listenerAttached = 'true';
             button.addEventListener('click', (e) => {
                 const id = parseInt(e.target.dataset.id);
                 removeFromCart(id);
@@ -154,104 +185,123 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Cambiar cantidad de un item en el carrito
     function changeQuantity(productId, action) {
         const itemIndex = cart.findIndex(item => item.id === productId);
         if (itemIndex === -1) return;
-
         if (action === 'increase') {
             cart[itemIndex].quantity++;
         } else if (action === 'decrease') {
             cart[itemIndex].quantity--;
             if (cart[itemIndex].quantity <= 0) {
-                cart.splice(itemIndex, 1); // Eliminar si la cantidad es 0 o menos
+                cart.splice(itemIndex, 1);
             }
         }
         updateCartView();
         saveCartToLocalStorage();
     }
 
-    // Eliminar producto del carrito
     function removeFromCart(productId) {
         cart = cart.filter(item => item.id !== productId);
         updateCartView();
         saveCartToLocalStorage();
     }
 
-    // Abrir/Cerrar carrito
     function toggleCart() {
         if (sideCart && cartOverlay) {
             sideCart.classList.toggle('open');
             cartOverlay.classList.toggle('active');
-            document.body.classList.toggle('no-scroll'); // Evitar scroll del body
+            document.body.classList.toggle('no-scroll');
         }
     }
 
-    // Event Listeners
+    // --- Event Listeners (General) ---
     if (cartButton) cartButton.addEventListener('click', toggleCart);
     if (closeCartBtn) closeCartBtn.addEventListener('click', toggleCart);
-    if (cartOverlay) cartOverlay.addEventListener('click', toggleCart); // Cerrar al hacer clic fuera
+    if (cartOverlay) cartOverlay.addEventListener('click', toggleCart);
 
-    if (exploreCatalogBtn && productsSection) {
-        exploreCatalogBtn.addEventListener('click', () => {
-            productsSection.scrollIntoView({ behavior: 'smooth' });
-        });
+    // --- Page-Specific Logic ---
+    if (currentPage === 'catalog') {
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const catalogSearchInput = document.getElementById('catalog-search-input');
+        const catalogSearchBtn = document.getElementById('catalog-search-btn');
+
+        if (filterButtons.length > 0) {
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    currentCatalogFilter = button.dataset.category;
+                    renderProducts(currentCatalogFilter, catalogSearchInput ? catalogSearchInput.value.trim() : '');
+                });
+            });
+        }
+
+        if (catalogSearchBtn && catalogSearchInput) {
+            const performSearch = () => {
+                renderProducts(currentCatalogFilter, catalogSearchInput.value.trim());
+            };
+            catalogSearchBtn.addEventListener('click', performSearch);
+            catalogSearchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryFromUrl = urlParams.get('category');
+        if (categoryFromUrl) {
+            const targetButton = document.querySelector(`.filter-btn[data-category="${categoryFromUrl}"]`);
+            if (targetButton && filterButtons.length > 0) {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                targetButton.classList.add('active');
+                currentCatalogFilter = categoryFromUrl;
+            }
+        }
     }
 
-    // Sección de Categorías - Botones "Ver Productos" (simulado, lleva a la sección de productos)
-    document.querySelectorAll('.category-button').forEach(button => {
-        button.addEventListener('click', () => {
-            if (productsSection) {
-                productsSection.scrollIntoView({ behavior: 'smooth' });
+    // --- Animations ---
+    function applyFadeInAnimations() {
+        const sectionsToAnimate = document.querySelectorAll('.hero, .catalog-hero, .categories-section, .products-section, .catalog-filters-section, .main-footer');
+        sectionsToAnimate.forEach((section, index) => {
+            if (section && typeof section.classList !== 'undefined' && !section.classList.contains('fade-in')) { // Check if section exists and not already animated
+                section.style.animationDelay = `${index * 0.15}s`;
+                section.classList.add('fade-in');
             }
         });
-    });
-
-
-    // Inicialización
-    renderProducts();
-    loadCartFromLocalStorage();
-
-    // Aplicar animación fade-in general al cargar la página (al body o main)
-    // Se puede hacer con CSS directamente en el body o un wrapper principal si se desea.
-    // Para un efecto escalonado, se puede aplicar a secciones.
-    // Aquí se aplica a las secciones principales para demostración.
-    const sectionsToAnimate = document.querySelectorAll('.hero, .categories-section, .products-section');
-    function applyFadeInAnimations() {
-        sectionsToAnimate.forEach((section, index) => {
-            section.style.animationDelay = `${index * 0.2}s`; // Retraso escalonado
-            section.classList.add('fade-in');
-        });
     }
 
-    // Lógica del Modal de Confirmación de Edad
+    // --- Age Gate Logic ---
     function handleAgeGate() {
-        if (!ageGateModal || !confirmAgeBtn) return;
+        const initialFilter = currentPage === 'catalog' ? currentCatalogFilter : 'all'; // Use pre-filtered value for catalog
 
-        const ageConfirmed = localStorage.getItem('emmaFireworksAgeConfirmed');
-
-        if (ageConfirmed === 'true') {
-            ageGateModal.classList.remove('active');
-            document.body.classList.remove('modal-open');
-            applyFadeInAnimations(); // Aplicar animaciones si ya está confirmado
+        if (!ageGateModal || !confirmAgeBtn) {
+            renderProducts(initialFilter);
+            applyFadeInAnimations();
             return;
         }
 
-        // Si no está confirmado, mostrar el modal
+        const ageConfirmed = localStorage.getItem('emmaFireworksAgeConfirmed');
+        if (ageConfirmed === 'true') {
+            ageGateModal.classList.remove('active');
+            document.body.classList.remove('modal-open');
+            renderProducts(initialFilter);
+            applyFadeInAnimations();
+            return;
+        }
+
         ageGateModal.classList.add('active');
         document.body.classList.add('modal-open');
-
         confirmAgeBtn.addEventListener('click', () => {
             localStorage.setItem('emmaFireworksAgeConfirmed', 'true');
             ageGateModal.classList.remove('active');
             document.body.classList.remove('modal-open');
-            applyFadeInAnimations(); // Aplicar animaciones después de confirmar
+            renderProducts(initialFilter);
+            applyFadeInAnimations();
         });
     }
 
-    // Inicialización
-    handleAgeGate(); // Manejar primero el age gate
-    renderProducts();
-    loadCartFromLocalStorage();
-    // Las animaciones fade-in se llaman desde handleAgeGate ahora
+    // --- Initialization ---
+    loadCartFromLocalStorage(); // Load cart state first
+    handleAgeGate(); // Manage age confirmation, then render products and animations
 });
