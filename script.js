@@ -361,14 +361,119 @@ document.addEventListener('DOMContentLoaded', () => {
     // function handleAgeGate() { ... }
 
     // --- Initialization ---
-    loadCartFromLocalStorage(); // Cargar estado del carrito
+    loadCartFromLocalStorage();
 
-    // Determinar el filtro inicial para la página de catálogo (considerando el parámetro URL)
     let initialFilterForRender = 'all';
     if (currentPage === 'catalog') {
-        initialFilterForRender = currentCatalogFilter; // currentCatalogFilter ya fue ajustado por la lógica de URL params
+        initialFilterForRender = currentCatalogFilter;
     }
-    renderProducts(initialFilterForRender); // Renderizar productos (recomendados o catálogo completo/filtrado)
+    renderProducts(initialFilterForRender);
+    applyFadeInAnimations();
 
-    applyFadeInAnimations(); // Aplicar animaciones de entrada a las secciones
+    // --- PDF Generation ---
+    const checkoutPdfBtn = document.getElementById('checkout-pdf-btn');
+
+    function generateOrderPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        let yPosition = 20;
+        const lineHeight = 7;
+        const pageHeight = doc.internal.pageSize.height;
+        const leftMargin = 15;
+        const contentWidth = doc.internal.pageSize.width - (leftMargin * 2);
+
+        // Encabezado del PDF
+        doc.setFontSize(18);
+        doc.text("Resumen de Pedido - EmmaFireworks", leftMargin, yPosition);
+        yPosition += lineHeight * 2;
+
+        doc.setFontSize(10);
+        doc.text(`Fecha: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`, leftMargin, yPosition);
+        yPosition += lineHeight * 1.5;
+
+        // Placeholder para datos del cliente (si se tuvieran)
+        // doc.text("Cliente: John Doe", leftMargin, yPosition); yPosition += lineHeight;
+        // doc.text("Email: john.doe@example.com", leftMargin, yPosition); yPosition += lineHeight * 1.5;
+
+
+        doc.setFontSize(12);
+        doc.text("Productos:", leftMargin, yPosition);
+        yPosition += lineHeight;
+        doc.setLineWidth(0.5);
+        doc.line(leftMargin, yPosition, leftMargin + contentWidth, yPosition); // Línea horizontal
+        yPosition += lineHeight * 0.5;
+
+
+        if (cart.length === 0) {
+            doc.setFontSize(10);
+            doc.text("El carrito está vacío.", leftMargin, yPosition);
+            yPosition += lineHeight;
+        } else {
+            doc.setFontSize(9);
+            const itemColWidth = contentWidth * 0.5; // Ancho para nombre
+            const qtyColWidth = contentWidth * 0.15; // Ancho para cantidad
+            const priceColWidth = contentWidth * 0.15; // Ancho para precio unitario
+            const subtotalColWidth = contentWidth * 0.20; // Ancho para subtotal
+
+            // Cabeceras de la tabla
+            doc.setFont(undefined, 'bold');
+            doc.text("Producto", leftMargin, yPosition);
+            doc.text("Cant.", leftMargin + itemColWidth, yPosition, { align: 'right' });
+            doc.text("P. Unit.", leftMargin + itemColWidth + qtyColWidth, yPosition, { align: 'right' });
+            doc.text("Subtotal", leftMargin + itemColWidth + qtyColWidth + priceColWidth, yPosition, { align: 'right' });
+            doc.setFont(undefined, 'normal');
+            yPosition += lineHeight * 0.8;
+
+
+            cart.forEach(item => {
+                if (yPosition > pageHeight - 30) { // Margen inferior antes de añadir nueva página
+                    doc.addPage();
+                    yPosition = 20; // Resetear yPosition para la nueva página
+                }
+                // Nombre del producto (puede necesitar ajuste si es muy largo)
+                let productNameLines = doc.splitTextToSize(item.name, itemColWidth - 2); // -2 para un pequeño margen
+                doc.text(productNameLines, leftMargin, yPosition);
+
+                let tempY = yPosition; // Guardar Y para alinear las otras columnas con la primera línea del nombre
+
+                doc.text(item.quantity.toString(), leftMargin + itemColWidth, tempY, { align: 'right' });
+                doc.text(`$${item.price.toFixed(2)}`, leftMargin + itemColWidth + qtyColWidth, tempY, { align: 'right' });
+                doc.text(`$${(item.price * item.quantity).toFixed(2)}`, leftMargin + itemColWidth + qtyColWidth + priceColWidth, tempY, { align: 'right' });
+
+                yPosition += (productNameLines.length * (lineHeight * 0.7)) + (lineHeight * 0.3); // Ajustar yPosition según las líneas del nombre y un pequeño espacio
+            });
+        }
+
+        yPosition += lineHeight * 0.5;
+        doc.line(leftMargin, yPosition, leftMargin + contentWidth, yPosition); // Línea horizontal
+        yPosition += lineHeight;
+
+        // Total General
+        doc.setFontSize(12);
+        doc.setFont(undefined, 'bold');
+        const totalAmountText = cartTotalAmount.textContent; // Obtener del DOM ya formateado
+        doc.text("Total General:", leftMargin + contentWidth - (subtotalColWidth + qtyColWidth), yPosition, { align: 'left' });
+        doc.text(totalAmountText, leftMargin + contentWidth, yPosition, { align: 'right' });
+        yPosition += lineHeight * 2;
+
+        // Mensaje de agradecimiento
+        doc.setFontSize(10);
+        doc.setFont(undefined, 'italic');
+        doc.text("¡Gracias por su pedido en EmmaFireworks!", leftMargin, yPosition);
+
+        doc.save('pedido_emmafireworks.pdf');
+    }
+
+    if (checkoutPdfBtn) {
+        checkoutPdfBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevenir cualquier acción por defecto del botón
+            if (cart.length > 0) {
+                generateOrderPDF();
+            } else {
+                alert("Tu carrito está vacío. Añade productos antes de generar el PDF.");
+            }
+        });
+    }
+
 });
