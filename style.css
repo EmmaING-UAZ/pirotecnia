@@ -15,6 +15,8 @@
     --shadow-light: 0 4px 8px rgba(0, 0, 0, 0.2);
     --shadow-medium: 0 6px 12px rgba(0, 0, 0, 0.3);
     --transition-speed: 0.3s;
+    --header-height: 70px; /* Altura del header principal */
+    --sub-navbar-height: 50px; /* Altura de la sub-navbar */
 }
 
 * {
@@ -29,7 +31,13 @@ body {
     color: var(--text-color-light);
     line-height: 1.6;
     overflow-x: hidden; /* Prevenir scroll horizontal por el carrito */
-    padding-top: 70px; /* Espacio para el header fijo */
+    /* padding-top se ajustará con JS si el header es completamente fijo y luego desaparece */
+    /* padding-top: calc(var(--header-height) + var(--sub-navbar-height)); */ /* Se ajustará dinámicamente si es necesario */
+    padding-top: var(--header-height); /* Espacio inicial para el header principal */
+}
+
+html {
+    scroll-behavior: smooth; /* Para el desplazamiento a anclas */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -89,8 +97,52 @@ img {
     width: 100%;
     z-index: 1000;
     box-shadow: var(--shadow-light);
-    height: 70px;
+    height: var(--header-height);
+    transition: top 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
+
+.main-header.header-hidden {
+    top: calc(-1 * var(--header-height)); /* Mover fuera de la vista, exactamente su altura */
+    opacity: 0.3; /* Puede ser 0 para desaparición completa o un valor bajo para efecto tenue */
+}
+
+
+/* Sub Navbar */
+.sub-navbar {
+    background-color: var(--accent-color-red);
+    padding: 0 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: sticky;
+    top: 0; /* Se pegará aquí cuando el main-header se oculte */
+    z-index: 999;
+    height: var(--sub-navbar-height);
+    box-shadow: var(--shadow-light);
+    /* La transición de 'top' para la sub-navbar dependerá de cómo se maneje el JS con el padding del body */
+}
+
+/* Ajuste cuando el header principal está visible y fijo */
+body:not(.main-header-scrolled-past) .sub-navbar {
+    top: var(--header-height);
+}
+
+
+.sub-navbar-links a {
+    color: var(--text-color-light);
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+.sub-navbar-links a:hover {
+    background-color: rgba(255,255,255,0.1);
+    color: var(--accent-color-gold);
+}
+
 
 .main-header .logo a {
     font-size: 1.8em;
@@ -845,9 +897,190 @@ body.modal-open {
 }
 /* Podríamos añadir un filtro al main cuando el modal está activo */
 /*
-body.modal-open main,
-body.modal-open .main-header,
-body.modal-open .main-footer {
+body.modal-open main:not(#age-gate-modal),
+body.modal-open .main-header:not(#age-gate-modal),
+body.modal-open .main-footer:not(#age-gate-modal),
+body.modal-open .sub-navbar:not(#age-gate-modal) {
     filter: blur(5px);
 }
 */
+
+/* Content Sections for Info/Contacto */
+.content-section {
+    padding: 40px 5%;
+    background-color: var(--primary-bg-color); /* Ajustado para mejor contraste con el tema oscuro */
+    margin: 30px auto; /* Margen vertical y centrado horizontal */
+    border-radius: 8px;
+    max-width: 960px; /* Ancho máximo para mejor legibilidad */
+    box-shadow: var(--shadow-light);
+}
+.content-section:target { /* Estilo para cuando se navega a la sección por ancla */
+    animation: highlightSection 0.8s ease-out;
+}
+@keyframes highlightSection {
+    0% { background-color: var(--accent-color-gold); }
+    100% { background-color: var(--primary-bg-color); }
+}
+
+.content-section h2 {
+    font-size: 2.2em;
+    margin-bottom: 25px;
+    border-bottom: 2px solid var(--accent-color-red);
+    padding-bottom: 10px;
+    display: inline-block; /* Para que el borde solo ocupe el texto */
+    color: var(--accent-color-gold);
+}
+.content-section p, .content-section ul {
+    margin-bottom: 20px;
+    font-size: 1.1em;
+    line-height: 1.7;
+    color: var(--text-color-light);
+}
+.content-section ul {
+    list-style: disc;
+    padding-left: 30px;
+}
+.content-section ul li {
+    margin-bottom: 10px;
+}
+.content-section a {
+    color: var(--accent-color-red);
+    font-weight: 600;
+}
+.content-section a:hover {
+    text-decoration: underline;
+    color: var(--accent-color-gold);
+}
+
+/* Floating Action Buttons Container */
+.floating-action-buttons {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 950; /* Asegurar que esté por encima del contenido pero debajo del carrito/modal */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Estilo base para los FABs */
+.fab-cart-btn, /* Cambiado de fab-cart para evitar conflicto con .cart-icon si lo hubiera */
+.whatsapp-float {
+    width: 55px; /* Ligeramente más pequeños */
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-medium);
+    transition: transform 0.2s ease-out, background-color var(--transition-speed) ease;
+    text-decoration: none; /* Para el <a> de WhatsApp */
+    border: none; /* Para el button del carrito */
+    cursor: pointer;
+}
+.fab-cart-btn:hover,
+.whatsapp-float:hover {
+    transform: scale(1.1);
+}
+
+/* Estilo específico para el FAB del carrito */
+.fab-cart-btn {
+    background-color: var(--accent-color-red);
+    color: var(--text-color-light);
+    font-size: 1.6em; /* Ajustar tamaño del ícono */
+    position: relative; /* Para el contador */
+}
+.fab-cart-btn:hover {
+    background-color: #cc0000;
+}
+#floating-cart-count {
+    background-color: var(--accent-color-gold);
+    color: var(--text-color-dark);
+    border-radius: 50%;
+    padding: 1px 5px;
+    font-size: 0.55em;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    font-weight: bold;
+    border: 1px solid var(--primary-bg-color);
+}
+
+/* WhatsApp Float Button (ajustes menores para encajar en el contenedor) */
+.whatsapp-float {
+    background-color: #25d366;
+    color: #FFF;
+}
+.whatsapp-float svg.whatsapp-ico { /* Target específico para el SVG de WhatsApp */
+    width: 28px;
+    height: 28px;
+    fill: white;
+}
+.whatsapp-float:hover {
+    background-color: #1ebe57;
+}
+
+/* Ajustes de responsividad para sub-navbar y FABs */
+@media (max-width: 768px) {
+    .sub-navbar {
+        padding: 0 3%;
+        height: auto; /* Permitir que se ajuste si los links se envuelven */
+        top: 0; /* Siempre se pega arriba en móvil si el header principal se oculta */
+    }
+    body:not(.main-header-scrolled-past) .sub-navbar {
+        top: var(--header-height-mobile, 100px); /* Usar una variable para la altura del header en móvil si cambia */
+    }
+    .sub-navbar-links {
+        display: flex;
+        flex-wrap: wrap; /* Permitir que los links se envuelvan */
+        justify-content: center;
+        width: 100%;
+    }
+    .sub-navbar-links a {
+        font-size: 0.85em;
+        padding: 8px 10px;
+    }
+
+    .floating-action-buttons {
+        bottom: 15px;
+        right: 15px;
+        gap: 10px;
+    }
+    .fab-cart-btn,
+    .whatsapp-float {
+        width: 50px;
+        height: 50px;
+    }
+    .fab-cart-btn {
+        font-size: 1.5em;
+    }
+    #floating-cart-count {
+        font-size: 0.5em;
+    }
+    .whatsapp-float svg.whatsapp-ico {
+        width: 24px;
+        height: 24px;
+    }
+
+    .content-section {
+        padding: 30px 3%;
+    }
+    .content-section h2 {
+        font-size: 1.8em;
+    }
+    .content-section p, .content-section ul {
+        font-size: 1em;
+    }
+}
+@media (max-width: 480px) {
+    .sub-navbar-links a {
+        font-size: 0.75em; /* Aún más pequeño si es necesario */
+    }
+     /* Ajustar padding-top del body en móvil si el header principal siempre está visible y es más alto */
+    body.main-header-layout-mobile { /* Clase que se podría añadir con JS si el header cambia a estático en móvil */
+        padding-top: calc(var(--header-height-mobile, 100px) + var(--sub-navbar-height));
+    }
+    body.main-header-layout-mobile.main-header-scrolled-past {
+         padding-top: var(--sub-navbar-height);
+    }
+}

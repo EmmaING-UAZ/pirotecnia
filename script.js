@@ -10,6 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const cartOverlay = document.getElementById('cart-overlay');
     const ageGateModal = document.getElementById('age-gate-modal');
     const confirmAgeBtn = document.getElementById('confirm-age-btn');
+    const mainHeader = document.querySelector('.main-header');
+    const subNavbar = document.querySelector('.sub-navbar');
+    const floatingCartBtn = document.getElementById('floating-cart-btn');
+    const floatingCartCount = document.getElementById('floating-cart-count');
+
 
     // --- Page Identification ---
     const currentPage = document.body.id === 'page-catalog' ? 'catalog' : 'index';
@@ -162,6 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         cartTotalAmount.textContent = `$${total.toFixed(2)}`;
         cartCount.textContent = totalItems;
+        if (floatingCartCount) floatingCartCount.textContent = totalItems; // Actualizar contador flotante
         addEventListenersToCartItemControls();
     }
 
@@ -218,6 +224,52 @@ document.addEventListener('DOMContentLoaded', () => {
     if (cartButton) cartButton.addEventListener('click', toggleCart);
     if (closeCartBtn) closeCartBtn.addEventListener('click', toggleCart);
     if (cartOverlay) cartOverlay.addEventListener('click', toggleCart);
+    if (floatingCartBtn) floatingCartBtn.addEventListener('click', toggleCart); // Nuevo botón flotante
+
+    // --- Header Scroll Logic ---
+    let lastScrollTop = 0;
+    const headerHeight = mainHeader ? mainHeader.offsetHeight : 70; // Obtener altura real o usar default
+    const subNavbarHeight = subNavbar ? subNavbar.offsetHeight : 50;
+
+    window.addEventListener('scroll', () => {
+        if (!mainHeader || !subNavbar) return;
+
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > lastScrollTop && scrollTop > headerHeight) {
+            // Scroll Down
+            mainHeader.classList.add('header-hidden');
+            document.body.classList.add('main-header-scrolled-past');
+             // El padding-top del body ya está en var(--header-height)
+            // La sub-navbar se pegará a top:0 debido a position:sticky y el header oculto
+        } else {
+            // Scroll Up or at top
+            if (scrollTop <= headerHeight) { // O alguna otra condición para mostrarlo de nuevo, ej. scrollTop < lastScrollTop
+                mainHeader.classList.remove('header-hidden');
+                document.body.classList.remove('main-header-scrolled-past');
+            }
+        }
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // For Mobile or negative scrolling
+
+        // Ajustar el padding-top del body para que el contenido no salte cuando el header se oculta/muestra
+        // y la subnavbar se vuelve sticky en la parte superior.
+        // Esto es complejo porque el main-header es position:fixed y la sub-navbar position:sticky
+        // Si el main-header se oculta, el espacio que ocupaba debe ser compensado si no, la sub-navbar salta.
+        // La sub-navbar se pega a top:0 cuando .main-header-scrolled-past está en body.
+        // Si el main-header es visible, la sub-navbar se pega a top:var(--header-height)
+        // El padding-top inicial del body es var(--header-height). Cuando el header se oculta,
+        // la sub-navbar por sí sola ocupará el espacio superior, por lo que el padding-top del body
+        // debería cambiar a var(--sub-navbar-height) si la sub-navbar es lo único visible y fijo arriba.
+        // Sin embargo, con position:sticky para la sub-navbar, el flujo del documento ya la considera.
+        // El problema principal es el main-header con position:fixed.
+        // Cuando el main-header se oculta, el padding-top del body debe seguir siendo var(--header-height)
+        // para que la sub-navbar (que está después en el DOM) se posicione correctamente.
+        // La clase .main-header-scrolled-past en el body ayuda a la sub-navbar a cambiar su 'top' en CSS.
+
+        // No se necesita ajuste dinámico de padding-top aquí si el CSS está bien configurado
+        // con position:sticky para sub-navbar y el padding-top inicial del body.
+    }, false);
+
 
     // --- Page-Specific Logic ---
     if (currentPage === 'catalog') {
