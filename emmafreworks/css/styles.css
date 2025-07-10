@@ -1,0 +1,42 @@
+/* Estilos adicionales a Tailwind */
+body {
+    font-family: 'Poppins', sans-serif;
+    /* Color de fondo principal definido en cada HTML, pero podemos poner un fallback o global aquí si es necesario */
+}
+
+/* Paleta de colores sugerida */
+/* Amarillo: #FFD700 (usado como bg-yellow-400, bg-yellow-500, text-yellow-600 en Tailwind) */
+/* Blanco: #FFFFFF (usado como bg-white, text-white en Tailwind) */
+/* Verde WhatsApp: #25D366 (usado como bg-green-500 en Tailwind para el ícono) */
+
+/* Estilos para el header si no se usa carga dinámica y se quiere centralizar algo */
+/* nav a:hover { color: white; } /* Ya está en línea con hover:text-white */
+
+/* Mejoras visuales sutiles */
+.hover\:shadow-xl:hover {
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+}
+
+.transition-shadow {
+    transition-property: box-shadow;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+/* Animación para el botón de WhatsApp (ya está en línea con animate-bounce) */
+/* .animate-bounce { animation: bounce 1s infinite; }
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8,0,1,1);
+  }
+  50% {
+    transform: none;
+    animation-timing-function: cubic-bezier(0,0,0.2,1);
+  }
+} */
+
+/* Estilo para el botón de filtro activo */
+.filter-btn.bg-yellow-500 {
+    /* Tailwind ya se encarga, pero es para referencia */
+}
