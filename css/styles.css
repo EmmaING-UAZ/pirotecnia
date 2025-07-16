@@ -1,0 +1,135 @@
+/* Tailwind se importa vía CDN en los HTML por ahora. */
+/* Este archivo es para estilos personalizados adicionales si son necesarios. */
+
+/* Ejemplo de importación de fuente si no se hace en el HTML:
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+body {
+    font-family: 'Poppins', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+*/
+
+/* Estilo para el color mostaza/dorado principal si se necesita globalmente y no solo con clases de Tailwind */
+:root {
+    --color-primary: #DAA520; /* Un tono de dorado/mostaza, ajustar según el logo */
+    --color-primary-dark: #B8860B; /* Un tono más oscuro para hover/active */
+}
+
+/* Clases de utilidad personalizadas si fueran necesarias */
+.text-primary {
+    color: var(--color-primary);
+}
+.bg-primary {
+    background-color: var(--color-primary);
+}
+.border-primary {
+    border-color: var(--color-primary);
+}
+.hover\:text-primary-dark:hover {
+    color: var(--color-primary-dark);
+}
+.hover\:bg-primary-dark:hover {
+    background-color: var(--color-primary-dark);
+}
+
+/* Animación para ScrollReveal (ejemplo básico) */
+.reveal-fade-in {
+    opacity: 0;
+    transition: opacity 0.8s ease-out;
+}
+.reveal-fade-in.visible {
+    opacity: 1;
+}
+
+.reveal-slide-in-left {
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.reveal-slide-in-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-slide-in-right {
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.reveal-slide-in-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Ajustes para que el panel del carrito no cause doble scrollbar cuando está abierto */
+body.cart-panel-open, body.modal-open {
+    overflow: hidden; /* Evita el scroll del body cuando el panel o modal están abiertos */
+}
+
+/* Estilos para el modal de producto (si se necesitan ajustes finos no cubiertos por Tailwind) */
+#product-modal .modal-content { /* DEPRECATED if modal content is directly styled with Tailwind */
+    max-height: 90vh; /* Asegura que el modal no sea más alto que la ventana */
+}
+
+/* Firefox scrollbar styling */
+html {
+    scrollbar-width: thin; /* "auto" or "thin" */
+    scrollbar-color: var(--color-primary-dark, #B8860B) #f1f1f1; /* thumb and track color */
+}
+
+/* Para asegurar que el footer se quede abajo en páginas con poco contenido */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    color: #1f2937; /* Default text color - Tailwind gray-800 */
+}
+
+main {
+    flex-grow: 1;
+}
+
+/* Mejoras a hover-effect */
+.hover-effect {
+    transition: all 0.25s ease-in-out;
+}
+.hover-effect:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+}
+
+/* Efecto específico para botones principales */
+.btn-primary {
+    @apply bg-yellow-500 text-white font-semibold py-3 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-105;
+}
+.btn-primary:hover {
+     @apply bg-yellow-600;
+     box-shadow: 0 4px 10px rgba(218, 165, 32, 0.4); /* Sombra color mostaza */
+}
+
+/* Estilo para los filtros de categoría activos y hover */
+#category-filters button {
+    @apply px-4 py-2 m-1 rounded-md transition-all duration-200 font-medium border-2 border-transparent;
+}
+#category-filters button[data-active="true"] {
+    @apply bg-yellow-500 text-white border-yellow-500 shadow-md;
+}
+#category-filters button[data-active="false"] {
+    @apply bg-gray-100 text-gray-700 hover:bg-yellow-400 hover:text-white hover:border-yellow-400;
+}
+
+/* Asegurar que los iconos SVG dentro de botones/links hereden el color y la transición */
+.icon-link svg, .icon-button svg {
+    transition: fill 0.3s ease, stroke 0.3s ease;
+}
+
+/* Colores de Tailwind usados frecuentemente para referencia y posible personalización futura en tailwind.config.js */
+/*
+    'yellow-500': '#f59e0b' (Tailwind v2, or similar in v3 e.g. amber-500) -> Usado como primario
+    'yellow-600': '#d97706' (Tailwind v2, or similar in v3 e.g. amber-600) -> Usado para hover primario
+    'gray-800': '#1f2937' -> Texto principal
+    'gray-900': '#111827' -> Texto más oscuro
+    'gray-100': '#f3f4f6' -> Fondos claros alternativos
+    'gray-200': '#e5e7eb' -> Bordes, fondos de botones secundarios
+*/
