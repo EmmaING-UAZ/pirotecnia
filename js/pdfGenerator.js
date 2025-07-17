@@ -50,6 +50,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Vaciar el carrito
             localStorage.removeItem('emmaFireworksCart');
 
+            // Reiniciar la variable global del carrito
+            if (window.cart) {
+                window.cart = [];
+            }
+
             // Actualizar la interfaz de usuario
             const cartItemsContainer = document.getElementById('cart-items-container');
             const cartTotalElement = document.getElementById('cart-total');
