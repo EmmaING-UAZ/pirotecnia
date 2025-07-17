@@ -8,9 +8,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const cart = JSON.parse(localStorage.getItem('emmaFireworksCart')) || [];
 
-            // Título
-            doc.setFontSize(20);
-            doc.text("Carrito de Compras", doc.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
+            // Título principal
+  doc.setFontSize(18);
+  doc.setTextColor(255, 0, 0); // Rojo para "Emma Fireworks"
+  doc.text('Emma Fireworks', 105, 20, { align: 'center' });
+
+  // Subtítulo
+  doc.setFontSize(14);
+  doc.setTextColor(0, 0, 0); // Negro
+  doc.text('Resumen del carrito de compras', 105, 30, { align: 'center' });
 
             // Contenido de la tabla
             const tableColumn = ["Producto", "Cantidad", "Precio Unitario", "Subtotal"];
@@ -30,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 total += subtotal;
             });
 
-            doc.autoTable(tableColumn, tableRows, { startY: 30 });
+            doc.autoTable(tableColumn, tableRows, { startY: 40 });
 
             const finalY = doc.autoTable.previous.finalY;
 
