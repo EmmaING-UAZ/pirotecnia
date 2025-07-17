@@ -41,6 +41,12 @@ document.addEventListener('DOMContentLoaded', () => {
             doc.setTextColor(255, 0, 0); // Rojo para "Emma Fireworks"
             doc.text("Emma Fireworks", 105, 20, { align: "center" });
 
+            //subtitulo
+            doc.setFontSize(20);
+            doc.setTextColor(0, 0, 0); // Negro
+            doc.text("Resumen del Pedido", doc.internal.pageSize.getWidth() / 2, 30, { align: 'center' });
+
+
             const tableColumn = ["Producto", "Cantidad", "Precio Unitario", "Subtotal"];
             const tableRows = [];
 
@@ -58,12 +64,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 total += subtotal;
             });
 
-            doc.autoTable(tableColumn, tableRows, { startY: 30 });
+            doc.autoTable(tableColumn, tableRows, { startY: 35 });
 
             const finalY = doc.autoTable.previous.finalY;
 
             doc.setFontSize(14);
             doc.setFont(undefined, 'bold');
+            doc.setTextColor(0, 0, 0);
             doc.text(`Total General: $${total.toFixed(2)}`, doc.internal.pageSize.getWidth() - 14, finalY + 15, { align: 'right' });
 
             doc.save('resumen-pedido-emmafireworks.pdf');
