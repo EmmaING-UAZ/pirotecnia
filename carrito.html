@@ -34,14 +34,36 @@
 
     <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h1 class="text-3xl sm:text-4xl font-bold text-center text-gray-800 my-10">Resumen del Pedido</h1>
-        <div id="cart-summary-container" class="bg-white p-6 rounded-lg shadow-lg">
-            <!-- El resumen del carrito se renderizará aquí -->
-            <p class="text-gray-500 text-center">Cargando resumen del pedido...</p>
-        </div>
-        <div class="mt-6 text-center">
-            <button id="generate-pdf-button" class="bg-yellow-500 text-white py-3 px-6 rounded-md font-semibold hover:bg-yellow-600 transition-colors duration-300">
-                Generar PDF del Pedido
-            </button>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+                <h2 class="text-2xl font-bold mb-4">Información de Entrega</h2>
+                <form id="delivery-form" class="bg-white p-6 rounded-lg shadow-lg">
+                    <div class="mb-4">
+                        <label for="name" class="block text-sm font-medium text-gray-700">Nombre Completo</label>
+                        <input type="text" id="name" name="name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="phone" class="block text-sm font-medium text-gray-700">Teléfono</label>
+                        <input type="tel" id="phone" name="phone" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="address" class="block text-sm font-medium text-gray-700">Dirección de Entrega</label>
+                        <textarea id="address" name="address" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div>
+                <h2 class="text-2xl font-bold mb-4">Resumen del Pedido</h2>
+                <div id="cart-summary-container" class="bg-white p-6 rounded-lg shadow-lg">
+                    <!-- El resumen del carrito se renderizará aquí -->
+                    <p class="text-gray-500 text-center">Cargando resumen del pedido...</p>
+                </div>
+                <div class="mt-6 text-center">
+                    <button id="generate-pdf-button" class="bg-yellow-500 text-white py-3 px-6 rounded-md font-semibold hover:bg-yellow-600 transition-colors duration-300">
+                        Generar PDF del Pedido
+                    </button>
+                </div>
+            </div>
         </div>
     </main>
 

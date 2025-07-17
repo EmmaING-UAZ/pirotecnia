@@ -41,12 +41,23 @@ document.addEventListener('DOMContentLoaded', () => {
             doc.setTextColor(255, 0, 0); // Rojo para "Emma Fireworks"
             doc.text("Emma Fireworks", 105, 20, { align: "center" });
 
-            //subtitulo
+            // Subtítulo
             doc.setFontSize(20);
-            doc.setTextColor(0, 0, 0); // Negro
+            doc.setTextColor(0, 0, 0);
             doc.text("Resumen del Pedido", doc.internal.pageSize.getWidth() / 2, 30, { align: 'center' });
 
+            // Datos del cliente
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
 
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            doc.text("Nombre: " + name, 14, 40);
+            doc.text("Teléfono: " + phone, 14, 46);
+            doc.text("Dirección: " + address, 14, 52);
+
+            // Tabla
             const tableColumn = ["Producto", "Cantidad", "Precio Unitario", "Subtotal"];
             const tableRows = [];
 
@@ -54,17 +65,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             cart.forEach(item => {
                 const subtotal = item.price * item.quantity;
-                const itemData = [
+                tableRows.push([
                     item.name,
                     item.quantity,
                     `$${item.price.toFixed(2)}`,
                     `$${subtotal.toFixed(2)}`
-                ];
-                tableRows.push(itemData);
+                ]);
                 total += subtotal;
             });
 
-            doc.autoTable(tableColumn, tableRows, { startY: 35 });
+            doc.autoTable(tableColumn, tableRows, { startY: 60 });
 
             const finalY = doc.autoTable.previous.finalY;
 
