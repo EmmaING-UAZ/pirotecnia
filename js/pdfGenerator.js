@@ -46,6 +46,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Descargar el PDF
             doc.save('carrito-emmafireworks.pdf');
+
+            // Vaciar el carrito
+            localStorage.removeItem('emmaFireworksCart');
+
+            // Actualizar la interfaz de usuario
+            const cartItemsContainer = document.getElementById('cart-items-container');
+            const cartTotalElement = document.getElementById('cart-total');
+            const cartCountDesktop = document.getElementById('cart-count-desktop');
+            const cartCountMobile = document.getElementById('cart-count-mobile');
+            const checkoutButton = document.getElementById('checkout-button');
+
+            if (cartItemsContainer) {
+                cartItemsContainer.innerHTML = '<p class="text-gray-500 text-center">Tu carrito está vacío.</p>';
+            }
+            if (cartTotalElement) {
+                cartTotalElement.textContent = '$0.00';
+            }
+            if (cartCountDesktop) {
+                cartCountDesktop.textContent = '0';
+            }
+            if (cartCountMobile) {
+                cartCountMobile.textContent = '0';
+            }
+            if (checkoutButton) {
+                checkoutButton.disabled = true;
+            }
         });
     }
 });
