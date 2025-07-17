@@ -76,11 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             doc.autoTable(tableColumn, tableRows, { startY: 60 });
 
+
             const finalY = doc.autoTable.previous.finalY;
 
             doc.setFontSize(14);
             doc.setFont(undefined, 'bold');
-            doc.setTextColor(0, 0, 0);
             doc.text(`Total General: $${total.toFixed(2)}`, doc.internal.pageSize.getWidth() - 14, finalY + 15, { align: 'right' });
 
             doc.save('resumen-pedido-emmafireworks.pdf');

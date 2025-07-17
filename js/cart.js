@@ -110,7 +110,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (checkoutButton) {
         checkoutButton.addEventListener('click', () => {
             if (cart.length > 0) {
-                // La funcionalidad de generar PDF se maneja en pdfGenerator.js
+                // Simulación de checkout
+                alert(`Procesando pago por ${cartTotalElement.textContent}.\nGracias por tu compra en EmmaFireworks!`);
+                cart = []; // Vaciar carrito después del "pago"
+                saveCart();
+                renderCartItems();
+                // Podrías redirigir a una página de agradecimiento o cerrar el panel
+                const closeCartButton = document.getElementById('close-cart-button');
+                if(closeCartButton) closeCartButton.click();
             }
         });
     }
