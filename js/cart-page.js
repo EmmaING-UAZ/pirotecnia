@@ -36,8 +36,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
 
-            doc.setFontSize(20);
-            doc.text("Resumen del Pedido", doc.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
+            // Título principal
+            doc.setFontSize(18);
+            doc.setTextColor(255, 0, 0); // Rojo para "Emma Fireworks"
+            doc.text("Emma Fireworks", 105, 20, { align: "center" });
 
             const tableColumn = ["Producto", "Cantidad", "Precio Unitario", "Subtotal"];
             const tableRows = [];
@@ -61,7 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const finalY = doc.autoTable.previous.finalY;
 
             doc.setFontSize(14);
-            doc.text(`Total General: $${total.toFixed(2)}`, 14, finalY + 15);
+            doc.setFont(undefined, 'bold');
+            doc.text(`Total General: $${total.toFixed(2)}`, doc.internal.pageSize.getWidth() - 14, finalY + 15, { align: 'right' });
 
             doc.save('resumen-pedido-emmafireworks.pdf');
 
